@@ -1,0 +1,28 @@
+
+### run alignment to WEW2.0 genome ###
+
+module load bwa/0.7.17
+cat list.txt | while read p ; do  "bwa mem -R '@RG\tID:${p}\tSM:${p}\tLB:${p}' zavitan_wew2_full_split.fasta ${p}_R1.fastq.gz> ${p}.sam" ; done
+
+
+### sam to bam, filtering, sorting and indexing ###
+
+module load samtools/1.10
+for sample in *.sam; do echo $sample; describer=$(echo ${sample} | sed 's/.sam//'); echo $describer; samtools view -h $sample | grep -v -e 'XA:Z:' -e 'SA:Z:' | samtools view -bq 30 > bam_files/${describer}.bam ; done
+for sample in *.bam; do echo $sample; describer=$(echo ${sample} | sed ‘s/.bam//‘); echo $describer; samtools sort $sample  > bam_sorted/${describer}.sorted.bam; done
+for sample in *sorted.bam; do echo $sample; describer=$(echo ${sample} | sed ‘s/.bam//‘); echo $describer; samtools index -c $sample ; done
+
+
+### variant calling with GATK haplotypecaller ###
+
+module load gatk/3.8
+java -jar $EBROOTGATK/GenomeAnalysisTK.jar -T HaplotypeCaller -nct 16 -R zavitan_wew2_full_split.fasta -I bam.list -o 845_var.vcf
+
+
+### filtering variants with vcftools ####
+
+module load vcftools/0.1.16
+vcftools --vcf 845_var.vcf --minQ 30 --minDP 6 --remove-indels --max-missing 0.9 --minGQ 15 --recode --recode-INFO-all --out filtered_845_var.snps.vcf
+
+
+This is followed by filtering for up to 0.1 heterozygote sites per positions with TASSEL 5
