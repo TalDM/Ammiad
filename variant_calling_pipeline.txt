@@ -1,3 +1,9 @@
+---
+title: "Variant calling pipeline"
+author: "Tal Dahan-Meir"
+date: "18/08/2021"
+---
+
 
 ### run alignment to WEW2.0 genome ###
 
