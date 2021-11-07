@@ -1,4 +1,8 @@
-
+---
+title: "principal component analysis using SNPRelate dirctly from VCF file"
+author: "Tal Dahan-Meir"
+date: "25/08/2021"
+---
 
 ### run principal component analysis on vcf file using SNPRelate library ###
 library(SNPRelate)
