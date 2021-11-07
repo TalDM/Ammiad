@@ -1,7 +1,7 @@
 
 ---
 title: "Rarefaction curves"
-author: "Tal Dahan"
+author: "Tal Dahan-Meir"
 date: "18/08/2021"
 rarefaction_sample function written by Thomas James Ellis
 ---
