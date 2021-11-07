@@ -1,3 +1,11 @@
+
+---
+title: "pairwise identity from VCF file function"
+author: "Tal Dahan-Meir"
+date: "18/08/2021"
+---
+
+
 ### Ammiad summarize identity from vcf (ammiad_summarize_vcf) ###
 ### This function gets a vcf and a map (with the coordinates of the sampling points), and retrieves a summarizing table into output_csv_path ###
 ##########################################
