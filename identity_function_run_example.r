@@ -24,7 +24,7 @@ ammiad_summarize_vcf(vcf_path = "845.vcf",
 
 ammiad_colorize_by_groups(summarized_table_path="output.csv",
                           colors_table_path="DGG_colors.csv",
-		          output_csv_path="output_with_colors.csv")
+		          output_csv_path="data/output_with_colors.csv")
 
 
 #########################

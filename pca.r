@@ -14,7 +14,7 @@ ccm_pca<-snpgdsPCA(genofile)
 
 
 ### load output file to get DGG colors ###
-data=read.csv("output_with_colors.csv")
+data=read.csv("data/output_with_colors.csv")
 
 
 ### habitat colors vector ###

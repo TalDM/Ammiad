@@ -10,7 +10,7 @@ rarefaction_sample function written by Thomas James Ellis
 
 ### load an output/output_with_colors file generated using the identity_function.r ###
 
-csv=read.csv("output_with_colors.csv")
+csv=read.csv("data/output_with_colors.csv")
 
 
 ### functions for adjusted polynomials for rarefaction and the mean and the range of their inflection points ###
