@@ -26,13 +26,15 @@ require(data.table)
 
 
 ### load and clean vcf ###
-
-vcf=fread("ammiad_845.vcf")
+	
+cat("loading files..\n")
+vcf = fread(vcf_path)
+ammiad_map = read.csv(map_csv_path, stringsAsFactors = FALSE, row.names="name")
 vcf_tab_clean = vcf[,10:ncol(vcf)]
 vcf_tab_clean_0_3 = t ( apply (vcf_tab_clean,1,function(x) { as.character(substring(x,1,3)) }) )
 vcf_tab_clean_0_3 = replace(vcf_tab_clean_0_3,vcf_tab_clean_0_3 == "./.","none")
 colnames(vcf_tab_clean_0_3) = colnames(vcf_tab_clean)
-
+samples = colnames(vcf_tab_clean_0_3)
 
 ### get heterozygosity ###
 
