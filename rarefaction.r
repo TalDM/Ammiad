@@ -1,10 +1,10 @@
 
----
-title: "Rarefaction curves"
-author: "Tal Dahan-Meir"
-date: "18/08/2021"
-rarefaction_sample function written by Thomas James Ellis
----
+#---
+#title: "Rarefaction curves"
+#author: "Tal Dahan-Meir"
+#date: "18/08/2021"
+#rarefaction_sample function written by Thomas James Ellis
+#---
 
 
 
