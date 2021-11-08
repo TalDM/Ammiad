@@ -15,9 +15,9 @@ source("identity_function.r")
 ### run it with specific files: ###  
 
 ammiad_summarize_vcf(vcf_path = "845.vcf",
-					map_csv_path = "map.csv",
-					output_csv_path = "output.csv",
-					identity_threshold = 0.981)
+		     map_csv_path = "map.csv",
+		     output_csv_path = "output.csv",
+		     identity_threshold = 0.981)
 
 
 ### assign colors to DGGs ### 
