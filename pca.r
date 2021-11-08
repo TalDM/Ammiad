@@ -1,11 +1,12 @@
----
-title: "principal component analysis using SNPRelate dirctly from VCF file"
-author: "Tal Dahan-Meir"
-date: "25/08/2021"
----
+#---
+#title: "principal component analysis using SNPRelate dirctly from VCF file"
+#author: "Tal Dahan-Meir"
+#date: "25/08/2021"
+#---
 
 ### run principal component analysis on vcf file using SNPRelate library ###
 library(SNPRelate)
+
 
 vcf.fn="ammiad_845.vcf"
 snpgdsVCF2GDS(vcf.fn, "ccm.gds",  method="biallelic.only")
