@@ -10,7 +10,7 @@ This repository contains code used for the analysis performed on Genotyping-By-S
 The UNIX commands used for running variant calling are stored in [variant_calling_pipeline.txt](variant_calling_pipeline.txt). The pipeline is using BWA, Samtools, GATK, VCFtools and TASSEL (versions enclosed in the file).
 
 
-<h3> Calculating pairwise identity and assign to DGGs </h3>
+<h3> Calculating pairwise identity and assignment to DGGs </h3>
 
 - Distinct genotype groups (DGGs) were assigned by pairwise genetic identity. 
 - To calculate identity and assign to DGGs, use [identity.r](identity.r). 
