@@ -1,0 +1,124 @@
+---
+title: "Are identical genotypes found in the same microhabitats?"
+author: "Tom Ellis"
+date: "17/03/2021"
+output:
+  bookdown::pdf_book:
+    toc: no
+  html_document: default
+---
+
+We would like to know whether plants of the same genotype tend to be found in the same microhabitat, which would indicate selection for microhabitat. To do this we calculate how many pairs of plants of matching genotypes are found within the same microhabitat. We compare this observed value to values from some kind of null distribution.
+
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache=T, cache.lazy=T, fig.align='center', warning = F)
+
+library("tidyverse")
+
+source("habitat_permutations/permutation_functions.R")
+
+```
+
+```{r format-sampling-points}
+#' Format genotype and position data
+#' Tom Ellis April 2021
+#'
+#' This script formats data for comparing with simulations and microhabitat sorting.
+#' Crucially it ensures there is a row for every sampling point in every year, so
+#' that there are the same number of rows for each year.
+
+# Import data one which genotypes are found at each sampling point in each year.
+years <- c(1984, 1988, 1992, 1996, 2002, 2014, 2016, 2018, 2020)
+
+# Import data on genotype occupancy.
+# Filter to give unique ID, sampling point, unique genotype, year, transect and distance
+obs_geno <- read_csv(
+  "data/output.csv",
+  col_types = cols()
+) %>%
+  select(Sample, Position, IGG, Year, Habitat, dist) %>%
+  # Zavitan is the ref genome control; TTD is plants from other populations.
+  filter(Position != "Zavitan" & Position != "TTD")
+
+# Ensure you have the same number of entries for each transect-year
+obs_geno <- obs_geno %>%
+  # Column for transect labels
+  mutate(
+    transect = ifelse(
+      test = grepl("West", Position),
+      yes = "A West",
+      no = substr(Position, 1 ,1)
+    )
+  ) %>%
+  # Join the observed data to a synthetic dataframe that has all possible years and
+  # sampling points. If any are missing in reality, these will appear as NA.
+  right_join(
+    expand.grid(Position= unique(obs_geno$Position), Year=as.character(years)),
+    by = c("Position", "Year")
+  ) %>%
+  # Fill in the missing data for sampling points that were empty in certain years
+  group_by(Position) %>%
+  fill(dist, transect, Habitat, .direction = 'downup') %>%
+  ungroup() %>%
+  filter(!is.na(dist)) %>%
+  # reorder
+  arrange(Year, transect, dist)
+```
+
+One way to do this is to:
+
+1. Line all the habitat labels up across the transects, and join the ends to make a circle.
+2. Randomly permute the order of the habitats, but keeping matching labels together.
+3. Randomly rotate the vector some distance (so that the permuted habitat labels do not always coincide with the start of the transect).
+
+Results are shown in figure \@ref(fig:plot-permutations), corresponding to
+figure S8 in the text.
+
+```{r calculate-permutations}
+permutations <- vector('list', length(years))
+
+# Calculate sorting for each year.
+# Returns a list of data.frame from `habitat_rotations()` with an entry for each
+# year.
+for(y in 1:length(years)){
+  # Pull out data for a single year.
+  this_year <- obs_geno %>% 
+    filter(Year == years[y], transect != "C", !is.na(Habitat)) %>% 
+    arrange(transect, dist)
+  # Perform rotations and calculated sorting by microhabitat.
+  permutations[[y]] <- habitat_permutations(
+    genotype = this_year$IGG,
+    habitat = this_year$Habitat,
+    nreps=1000
+  )
+}
+# Add columns for year and concatenate
+permutations <- lapply(1:length(years), function(y) cbind(year=years[y], permutations[[y]]))
+names(permutations) <- as.character(years)
+```
+
+```{r plot-permutations, fig.cap="Sorting of identical genotypes by microhabitat comparing observed values (red) to values obtained by permuting habitat labels (violins)."}
+
+pvals <- sapply(permutations, function(x){
+  n <- nrow(x) -1
+  mean(x$matches[n + 1] < x$matches[1:n])
+})
+
+do.call('rbind', permutations) %>% 
+  filter(type == "permuted") %>% 
+  
+  ggplot(aes(x=factor(year), y = matches)) + 
+  geom_violin(adjust=1.5) +
+  geom_point(
+    data = do.call('rbind', permutations) %>% filter(type == "observed"),
+    aes(x=factor(year), y = matches),
+    colour = "red") + 
+  scale_color_brewer(palette="Dark2") + 
+  labs(
+    x="Year",
+    y="Pairs of plants in same microhabitat"
+  )
+
+```
+
