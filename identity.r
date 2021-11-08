@@ -1,9 +1,9 @@
 
----
-title: "pairwise identity from VCF file"
-author: "Tal Dahan-Meir"
-date: "18/08/2021"
----
+#---
+#title: "pairwise identity from VCF file"
+#author: "Tal Dahan-Meir"
+#date: "18/08/2021"
+#---
 
 library(data.table)
 
