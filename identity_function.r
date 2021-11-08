@@ -1,9 +1,9 @@
 
----
-title: "pairwise identity from VCF file function"
-author: "Tal Dahan-Meir"
-date: "18/08/2021"
----
+#---
+#title: "pairwise identity from VCF file function"
+#author: "Tal Dahan-Meir"
+#date: "18/08/2021"
+#---
 
 
 ### Ammiad summarize identity from vcf (ammiad_summarize_vcf) ###
