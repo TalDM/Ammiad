@@ -32,7 +32,7 @@ vcf_tab_clean = vcf[,10:ncol(vcf)]
 vcf_tab_clean_0_3 = t ( apply (vcf_tab_clean,1,function(x) { as.character(substring(x,1,3)) }) )
 vcf_tab_clean_0_3 = replace(vcf_tab_clean_0_3,vcf_tab_clean_0_3 == "./.","none")
 colnames(vcf_tab_clean_0_3) = colnames(vcf_tab_clean)
-
+samples = colnames(vcf_tab_clean_0_3)
 
 ### get heterozygosity ###
 
