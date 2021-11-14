@@ -6,7 +6,7 @@ This repository contains code used for the analysis performed on Genotyping-By-S
 
 <h3> Demultiplexing GBS Illumina reads </h3>
 
-A python/2.7 [GBS_demultiplex.py](code) was used to demultiplex the raw reads obtained from the Illumina .fastw files.
+A python/2.7 [code](GBS_demultiplex.py) was used to demultiplex the raw reads obtained from the Illumina .fastw files.
 
 
 <h3> Variant calling pipeline </h3>
