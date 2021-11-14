@@ -4,6 +4,10 @@
 
 This repository contains code used for the analysis performed on Genotyping-By-Sequencing data of Ammiad wild wheat collection.
 
+<h3> Demultiplexing GBS Illumina reads </h3>
+
+A python/2.7 [GBS_demultiplex.py]code was used to demultiplex the raw reads obtained from the Illumina .fastw files.
+
 
 <h3> Variant calling pipeline </h3>
 
@@ -56,5 +60,5 @@ Saves an `.RDS` file which can be quickly imported.
  <h3> Habitat sorting: permutations </h3>
 
 Code to estimate whether sorting by microhabitat can be explained by chance, and
-to recreate figure S8, are shown in the directory `habitat_permutations`.
+to recreate figure S9, are shown in the directory `habitat_permutations`.
 The RMarkdown file imports the functions to do this and creates the plot.
