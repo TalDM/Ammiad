@@ -18,7 +18,7 @@ The UNIX commands used for running variant calling are stored in [variant_callin
 
 - Distinct genotype groups (DGGs) were assigned by pairwise genetic identity. 
 - To calculate identity and assign to DGGs, use [identity.r](data_processing/identity/identity.r). 
-- If you wish to create a summary .csv table with the coordinates, euclidean distances, microhabitats and SNP summary, load the [identity_function.r](data_processing/identity/identity_function.r), using the [data_processing/identity/identity_function_run_example.r](data_processing/identity/identity_function_run_example.r). 
+- If you wish to create a summary .csv table with the coordinates, euclidean distances, microhabitats and SNP summary, load the [identity_function.r](data_processing/identity/identity_function.r), using the [identity_function_run_example.r](data_processing/identity/identity_function_run_example.r). 
 
 
 <h3> Rarefaction analysis </h3>
