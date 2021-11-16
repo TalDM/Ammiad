@@ -4,9 +4,11 @@
 
 This repository contains code used for the analysis performed on Genotyping-By-Sequencing data of Ammiad wild wheat collection.
 
+<h2> Data processing </h2>
+
 <h3> Demultiplexing GBS Illumina reads </h3>
 
-A python/2.7 [code](data_processing/GBS_demultiplex.py) was used to demultiplex the raw reads obtained from the Illumina .fastw files.
+A python/2.7 [code](data_processing/GBS_demultiplex.py) was used to demultiplex the raw reads obtained from the Illumina .fastq files.
 
 
 <h3> Variant calling pipeline </h3>
@@ -20,6 +22,7 @@ The UNIX commands used for running variant calling are stored in [variant_callin
 - To calculate identity and assign to DGGs, use [identity.r](data_processing/identity/identity.r). 
 - If you wish to create a summary .csv table with the coordinates, euclidean distances, microhabitats and SNP summary, load the [identity_function.r](data_processing/identity/identity_function.r), using the [identity_function_run_example.r](data_processing/identity/identity_function_run_example.r). 
 
+<h2> Data analysis </h2>
 
 <h3> Rarefaction analysis </h3>
 
