@@ -9,10 +9,10 @@
 set.seed(124)
 
 # Directory to save scripts to.
-out_dir <- "05_results/12_simmiad_from_unique_genotype/simmiad_scripts"
+out_dir <- "data_analysis/simulations/simmiad_scripts"
 dir.create(out_dir, showWarnings = FALSE)
 # Directory to tell the scripts to save the output to.
-sim_dir <- "05_results/12_simmiad_from_unique_genotype/output/"
+sim_dir <- "data_analysis/simulations/output/"
 dir.create(sim_dir, showWarnings = F)
 
 # Initialise parameters
