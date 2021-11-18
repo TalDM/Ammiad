@@ -1,9 +1,9 @@
 
 require(geosphere)
 
-csv = read.csv("/data/2020_plant_densities.csv",colClasses="character")
+csv = read.csv("data/2020_plant_densities.csv",colClasses="character")
 
-#get dists between a plants to next plants and add to data.frame
+#get dists between plants to next plants and add to data.frame
 nPlants_a = nrow(csv)
 coordinates_next_plants = data.frame("altitude_nextPlant" = rep(NA,nPlants_a),
                                      "latitude_nextPlant" = rep(NA,nPlants_a),
@@ -19,7 +19,6 @@ csv_distances$plantsinMM_divided_by_pi = as.numeric(csv_distances$plants_in_1MM2
 csv_distances$plantsinM_combined = as.numeric(csv_distances$plantsinMM_divided_by_pi)+as.numeric(csv_distances$plantsPerMeter)
 
 head(csv_distances)
-
 
 
 pdf("transect_a_density_2020.pdf", height=8, width=22)
@@ -58,4 +57,5 @@ apply(csv_distances,1, function(xx){
        cex=1)} )
 dev.off()
 
-
+###calculate mean density###
+(sum(as.numeric(csv_distances$plantsinMM_divided_by_pi))+(sum(as.numeric(csv_distances$plants_until_next_point),na.rm=T)/2))/max(csv_distances$position_meters)
