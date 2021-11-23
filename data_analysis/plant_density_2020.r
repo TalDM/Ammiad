@@ -1,3 +1,8 @@
+#---
+#title: "calculating plant density from survey done in 2020 on transect A"
+#author: "Tal Dahan-Meir"
+#date: "25/08/2021"
+#---
 
 require(geosphere)
 
