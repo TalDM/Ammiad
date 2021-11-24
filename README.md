@@ -71,4 +71,4 @@ The RMarkdown file imports the functions to do this and creates the plot.
 
 <h3> Estimating plant density </h3>
 
-Plant density was measured in 2020, in transect A and summarised in (2020_plant_densities.csv)[data/2020_plant_densities.csv]. Spikes were counted around each sampling point peg (1 meter radius) and between each sampling points (in 2 meter width course). Mean density calculation and plot was done using (plant_density_2020.r)[data_analysis/plant_density_2020.r]
+Plant density was measured in 2020, in transect A and summarised in [2020_plant_densities.csv](data/2020_plant_densities.csv). Spikes were counted around each sampling point peg (1 meter radius) and between each sampling points (in 2 meter width course). Mean density calculation and plot was done using [plant_density_2020.r](data_analysis/plant_density_2020.r).
