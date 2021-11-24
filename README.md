@@ -67,3 +67,8 @@ Saves an `.RDS` file which can be quickly imported.
 Code to estimate whether sorting by microhabitat can be explained by chance, and
 to recreate figure S9, are shown in the directory `habitat_permutations`.
 The RMarkdown file imports the functions to do this and creates the plot.
+
+
+<h3> Estimating plant density </h3>
+
+Plant density was measured in 2020, in transect A and summarised in (density table)[data/2020_plant_densities.csv]. Spikes were counted around each sampling point peg (1 meter radius) and between each sampling points (in 2 meter width course). Mean density calculation and plot was done using (density.r)[data_analysis/plant_density_2020.r]
