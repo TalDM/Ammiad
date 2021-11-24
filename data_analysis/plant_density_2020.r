@@ -62,5 +62,6 @@ apply(csv_distances,1, function(xx){
        cex=1)} )
 dev.off()
 
-###calculate mean density###
+###calculate mean density in m^2###
+#(sum of plants around peg divided by pi - to transform from circle to ^2)+(sum of plants until next point divided by 2 - to transform from 2 meters to 1 meter width)/(transect length)
 (sum(as.numeric(csv_distances$plantsinMM_divided_by_pi))+(sum(as.numeric(csv_distances$plants_until_next_point),na.rm=T)/2))/max(csv_distances$position_meters)
