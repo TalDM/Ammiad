@@ -40,12 +40,7 @@ plot (as.numeric(csv_distances$position_meters),
       col="black",
       xlab = "position (M)",
       ylab = "spikes per M^2")
-#apply(csv_distances,1, function(xx){
- #     segments(x0 = as.numeric(xx[11]),
-  #             y0 = as.numeric(xx[12]),
-   #            x1 = as.numeric(xx[11])+as.numeric(xx[10]),
-    #           y1 = as.numeric(xx[12]),
-     #          col="grey") } )
+
 apply(csv_distances,1, function(xx){
   rect(xleft = as.numeric(xx[11]),
       ybottom = 0,
