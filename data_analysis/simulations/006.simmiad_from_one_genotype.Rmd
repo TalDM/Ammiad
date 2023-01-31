@@ -58,7 +58,7 @@ Here is a summary of input parameters for these simulations:
 
 # Import summary of the simulations from
 # "simulations/005.summarise_simulations.R"
-sims <- readRDS("simulations/output/simmiad_summary.Rds")
+sims <- readRDS("data_analysis/simulations/output/simmiad_summary.Rds")
 ```
 
 ```{r format-sampling-points}
@@ -227,7 +227,7 @@ obs_stability <- stability_all %>%
 #' Simulations are compared with the *minimum* clustering/stability among transects for each pair of data,
 #' so this reflects overlap with *any* observed transect.
 
-base_folder <- "simulations/output/"
+base_folder <- "data_analysis/simulations/output/"
 folders <- list.dirs(base_folder)
 
 # Return a data.frame of parameter values for each simulation.

@@ -3,7 +3,7 @@
 #' Import simulation results, and average over replicates.
 #' Save the output as and RDS file for quick re-use
 library("tidyverse")
-base_folder <- "simulations/output"
+base_folder <- "data_analysis/simulations/output"
 
 files <- c(
   #"clustering.csv",

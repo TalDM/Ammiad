@@ -5,13 +5,14 @@
 #impute data for missing phenotypes
 library(tidyverse)
 palette_from_tal<-c("East slope"="#2a7fff","Karst"="#f7a8b8","Middle north"="#ff5555","Narrow valley"="#ff9955","Plateau"="#5fd35f","South slope"="#ffe680","Upper north"="#aa0000","Valley"="#9955ff")
-x.pheno<-read.csv("pheno_20_21_data.csv")
-x.samples<-read.csv("845_output_per981.csv")
-x.seeds<-read.csv("mean_median_var_seed_size.csv")
+x.pheno<-read.csv("data/pheno_20_21_data.csv")
+x.samples<-read.csv("data/845_output_per981.csv")
+x.seeds<-read.csv("data/mean_median_var_seed_size.csv")
 
 x.seeds<-x.seeds[grep("ZAVITAN",x.seeds$X,invert=TRUE),]
 x.seeds<-x.seeds[grep("N2",x.seeds$X,invert=TRUE),]
-x.seeds.str<-strsplit(x.seeds$X,split="G")
+
+x.seeds.str<-strsplit(as.character(x.seeds$X),split="G")
 x.blocks<-sapply(x.seeds.str,function(x) x[1]) %>% gsub("BLOCK","",.) %>% as.numeric
 x.gg<-sapply(x.seeds.str,function(x) x[2]) %>% paste0("G",.)
 x.seeds<-data.frame(old_dgg=x.gg,block=x.blocks,MeanArea=x.seeds$Area,MeanLength=x.seeds$Length,MeanWidth=x.seeds$Width)
@@ -161,10 +162,11 @@ i<-which(names(h2.data)==c("coleptile_color"))
 x.temp<-h2.data[,c(1,2,i)]
 names(x.temp)[3]<-"y"
 x.temp$y<-as.numeric(x.temp$y)
+x.temp$y <- x.temp$y -1
 brms_m1.1 <- brm(
   y ~ 1 + (1 | block)+(1 | new_dgg),
   data = x.temp,
-  family = binomial(),
+  family = bernoulli(),
   chains = 4, cores = 4, iter = 6000, control = list(adapt_delta = 0.95, max_treedepth = 12)
 )
 save(brms_m1.1, file = paste0("models_brms/brms_m1_",names(x.ldata)[i],".rda"))
