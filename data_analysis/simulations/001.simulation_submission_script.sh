@@ -1,22 +1,21 @@
 #! /bin/bash
 #
 # Script to run different simmiad simulations with different parameters as a 
-# SLURM job array on a high-performance cluster.
+# SLURM job array on the VBC high-performance computing cluster.
 
 # SLURM
 #SBATCH --job-name=simmiad_sims
-#SBATCH --output=data_analysis/simulations/003.simmiad_sims.log
-#SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=thomas.ellis@gmi.oeaw.ac.at
+#SBATCH --output=data_analysis/simulations/slurm/%J.out
+#SBATCH --error=data_analysis/simulations/slurm/%J.err
 #SBATCH --mem-per-cpu=10GB
 #SBATCH --qos=long
-#SBATCH --time=1-00:00:00
+#SBATCH --time=2-00:00:00
 #SBATCH --ntasks=1
-#SBATCH --array=0-258
+#SBATCH --array=0-255
 
 # ENVIRONMENT #
-ml build-env/f2020
-ml r/3.6.0-foss-2019a
+module load build-env/f2022
+module load r/4.2.0-foss-2021b
 
 # Generate R scripts for each parameter combination.
 Rscript data_analysis/simulations/002.sim_generator.R

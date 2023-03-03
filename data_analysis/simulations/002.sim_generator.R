@@ -14,13 +14,16 @@ dir.create(out_dir, showWarnings = FALSE)
 # Directory to tell the scripts to save the output to.
 sim_dir <- "data_analysis/simulations/output/"
 dir.create(sim_dir, showWarnings = F)
+# Directory to save SLURM messages to.
+slurm_dir <- "data_analysis/simulations/slurm"
+dir.create(out_dir, showWarnings = FALSE)
 
 # Initialise parameters
 dispersal <- c(0.5, 0.75, 1, 2)
-outcrossing_rate <- c(0.0025, 0.005, 0.01, 0.02)
-n_generations <- 2000
+outcrossing_rate <- c(0.5, 2, 4, 8) / 100
+n_generations <- 500
 n_starting_genotypes <- c(1)
-density <- c(1, 2, 3,5)
+density <- c(1, 2, 3, 5)
 dormancy <- c(0, 0.1, 0.3, 0.5)
 n_sample_points <- 30 
 sample_spacing <- 5
@@ -33,6 +36,7 @@ for(d in dispersal){
     for(b in n_starting_genotypes){
       for (a in density){
         for(s in dormancy){
+          n_generations <- ifelse(o >= 0.02, o, 1500)
           # File root name for this simulation.
           fname <- paste(
             'd',  sprintf('%03d', d*100),
