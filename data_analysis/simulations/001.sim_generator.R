@@ -36,7 +36,7 @@ for(d in dispersal){
     for(b in n_starting_genotypes){
       for (a in density){
         for(s in dormancy){
-          n_generations <- ifelse(o >= 0.02, o, 1500)
+          n_generations <- ifelse(o >= 0.02, n_generations, 1500)
           # File root name for this simulation.
           fname <- paste(
             'd',  sprintf('%03d', d*100),
