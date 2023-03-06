@@ -33,6 +33,12 @@ Rarefaction analysis and plots for Ammiad collection, per year, was generated us
 
 Principal component analysis was done using the SNPRelate library directly from the VCF file. Code for running the analysis and generating the plots can be found in [pca.r](data_analysis/pca.r).
 
+ <h3> Habitat sorting: permutations </h3>
+
+Code to estimate whether sorting by microhabitat can be explained by chance, and
+to recreate figure S9, are shown in the directory `habitat_permutations`.
+The RMarkdown file imports the functions to do this and creates the plot.
+
 <h3> Individual-based simulations </h3>
 
 This folder contains scripts to run individual-based simulations of populations
@@ -58,13 +64,19 @@ Saves an `.RDS` file which can be quickly imported.
 
  This recreates figures 3, S11, S12, S13 and S14.
 
- <h3> Habitat sorting: permutations </h3>
-
-Code to estimate whether sorting by microhabitat can be explained by chance, and
-to recreate figure S9, are shown in the directory `habitat_permutations`.
-The RMarkdown file imports the functions to do this and creates the plot.
-
-
 <h3> Estimating plant density </h3>
 
 Plant density was measured in 2020, in transect A and summarised in [2020_plant_densities.csv](data/2020_plant_densities.csv). Spikes were counted around each sampling point peg (1 meter radius) and between each sampling points (in 2 meter width course). Mean density calculation and plot was done using [plant_density_2020.r](data_analysis/plant_density_2020.r).
+
+ <h3> Phenotypes </h3>
+ 
+Scripts to analyse the phenotype data from the common-garden nethouse experiment
+and predict phenotypes in the field:
+
+* 001_linear_models.R         : Script to fit linear models to each phenotype with BRMS
+* 002_submit_linear_models.sh : Submit the linear models as a SLURM job
+* 003_heritability.R          : Estimate and plot broad-sense heritability
+* 004_predict_phenotypes.R    : Predict phenotypes for 801 samples at Ammiad and calculate variance explained by habitat and year
+* 005_submit_predictions.sh   : Submit the predictions as a SLURM job
+* 006_plot_predictions.R      : Plot variance explained by habitat.
+ 
