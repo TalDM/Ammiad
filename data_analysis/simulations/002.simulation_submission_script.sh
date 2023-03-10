@@ -14,11 +14,11 @@
 #SBATCH --array=0-255
 
 # ENVIRONMENT #
-module load build-env/f2022
-module load r/4.2.0-foss-2021b
+ml build-env/f2022
+ml r/4.1.2-foss-2021b
 
 # Generate R scripts for each parameter combination.
-Rscript data_analysis/simulations/002.sim_generator.R
+Rscript data_analysis/simulations/001.sim_generator.R
 # Submit each simulation.
 FILES=(data_analysis/simulations/simmiad_scripts/*.R)
 srun Rscript ${FILES[$SLURM_ARRAY_TASK_ID]}

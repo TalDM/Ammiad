@@ -64,3 +64,5 @@ blocks <- blocks %>%
 pheno <- pheno %>% 
   left_join(seeds, by =c("block", "new_dgg")) %>% 
   left_join(blocks, by =c("block", "new_dgg"))
+
+rm(blocks, seeds)

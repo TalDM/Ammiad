@@ -1,5 +1,9 @@
 # Script to import data on which samples were found in which sampling position
 # in each year.
+#' Returns a tibble called `obs_geno` with columns for sample ID, position in 
+#' the transect, DGG, year, habitat, distance (in metres) along the transect,
+#' and transect.
+
 library("tidyverse")
 # Import data one which genotypes are found at each sampling point in each year.
 years <- c(1984, 1988, 1992, 1996, 2002, 2014, 2016, 2018, 2020)

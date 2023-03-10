@@ -12,6 +12,6 @@
 
 # ENVIRONMENT #
 module load build-env/f2022
-module load r/4.2.0-foss-2021b
+module load r/4.0.2-foss-2018b
 
 Rscript data_analysis/simulations/003.summarise_simulations.R
