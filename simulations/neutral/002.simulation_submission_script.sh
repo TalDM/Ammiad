@@ -4,12 +4,12 @@
 # SLURM job array on the VBC high-performance computing cluster.
 
 # SLURM
-#SBATCH --job-name=simmiad_sims
-#SBATCH --output=data_analysis/simulations/slurm/%J.out
-#SBATCH --error=data_analysis/simulations/slurm/%J.err
+#SBATCH --job-name=neutral_simulations
+#SBATCH --output=simulations/neutral/slurm/%J.out
+#SBATCH --error=simulations/neutral/slurm/%J.err
 #SBATCH --mem-per-cpu=10GB
 #SBATCH --qos=long
-#SBATCH --time=2-00:00:00
+#SBATCH --time=4-00:00:00
 #SBATCH --ntasks=1
 #SBATCH --array=0-255
 
@@ -18,7 +18,7 @@ ml build-env/f2022
 ml r/4.1.2-foss-2021b
 
 # Generate R scripts for each parameter combination.
-Rscript data_analysis/simulations/001.sim_generator.R
+Rscript simulations/neutral/001.sim_generator.R
 # Submit each simulation.
-FILES=(data_analysis/simulations/simmiad_scripts/*.R)
+FILES=(simulations/neutral/simmiad_scripts/*.R)
 srun Rscript ${FILES[$SLURM_ARRAY_TASK_ID]}

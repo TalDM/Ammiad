@@ -3,7 +3,7 @@
 #' Import simulation results, and average over replicates.
 #' Save the output as and RDS file for quick re-use
 library("tidyverse")
-base_folder <- "data_analysis/simulations/output"
+base_folder <- "simulations/neutral/output"
 
 files <- c(
   #"clustering.csv",
@@ -32,4 +32,4 @@ sims$stability$through_time <- sims$stability$through_time %>%
     transect = "sim"
   )
 
-saveRDS(sims, "simulations/output/simmiad_summary.Rds")
+saveRDS(sims, "simulations/neutral/output/simmiad_summary.Rds")

@@ -9,13 +9,13 @@
 set.seed(124)
 
 # Directory to save scripts to.
-out_dir <- "data_analysis/simulations/simmiad_scripts"
+out_dir <- "simulations/neutral/simmiad_scripts"
 dir.create(out_dir, showWarnings = FALSE)
 # Directory to tell the scripts to save the output to.
-sim_dir <- "data_analysis/simulations/output/"
+sim_dir <- "simulations/neutral/output/"
 dir.create(sim_dir, showWarnings = F)
 # Directory to save SLURM messages to.
-slurm_dir <- "data_analysis/simulations/slurm"
+slurm_dir <- "simulations/neutral/slurm"
 dir.create(out_dir, showWarnings = FALSE)
 
 # Initialise parameters
