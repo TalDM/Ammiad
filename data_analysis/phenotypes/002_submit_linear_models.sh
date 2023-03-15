@@ -16,4 +16,4 @@
 module load build-env/f2022
 module load r/4.2.0-foss-2021b
 
-Rscript data_analysis/phenotypes/002_linear_models.R
+Rscript data_analysis/phenotypes/001_linear_models.R

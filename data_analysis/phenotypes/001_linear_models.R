@@ -3,8 +3,7 @@
 #' 
 #' Plants were grown a six randomised 'blocks' 96 genotypes (95 DGGs plus the 
 #' Zavitan reference genotype) randomised over two rows per block on the same 
-#' irrigation line. I also added a factor 'row' running perpendicular to the 
-#' irrigation lines that divides each block into eight groups of six.
+#' irrigation line.
 
 source("data_processing/import_field_occupancy_data.R")
 source("data_processing/import_phenotype_data.R")
@@ -46,7 +45,7 @@ for(var in gaussian_vars){
   cat("Fitting the BRMS model for ", var, "... ", sep="")
   t0 <- Sys.time()
   # Regression formula
-  frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | row) + (1 | row:block) + (1 | new_dgg)"))
+  frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | new_dgg)"))
   # Path to save the model output
   model_path <- paste0("data_analysis/phenotypes/brms_fits/", var, "_fit.rds")
   # Fit the model
@@ -67,7 +66,7 @@ for(var in poisson_vars){
   cat("Fitting the BRMS model for", var, ".\n")
   t0 <- Sys.time()
   # Regression formula
-  frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | row) + (1 | row:block) + (1 | new_dgg)"))
+  frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | new_dgg)"))
   # Path to save the model output
   model_path <- paste0("data_analysis/phenotypes/brms_fits/", var, "_fit.rds")
   # Fit the model
@@ -89,7 +88,7 @@ for(var in ordinal_vars){
   cat("Fitting the BRMS model for", var, ".\n")
   t0 <- Sys.time()
   # Regression formula
-  frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | row) + (1 | row:block) + (1 | new_dgg)"))
+  frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | new_dgg)"))
   # Path to save the model output
   model_path <- paste0("data_analysis/phenotypes/brms_fits/", var, "_fit.rds")
   # Fit the model
@@ -109,7 +108,7 @@ for(var in ordinal_vars){
 var <- "coleptile_color"
 t0 <- Sys.time()
 # Regression formula
-frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | row) + (1 | row:block) + (1 | new_dgg)"))
+frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | new_dgg)"))
 # Path to save the model output
 model_path <- paste0("data_analysis/phenotypes/brms_fits/", var, "_fit.rds")
 # Fit the model
