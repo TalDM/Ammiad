@@ -36,7 +36,6 @@ for(d in dispersal){
     for(b in n_starting_genotypes){
       for (a in density){
         for(s in dormancy){
-          n_generations <- ifelse(o >= 0.04, n_generations, 1500)
           # File root name for this simulation.
           fname <- paste(
             'd',  sprintf('%03d', d*100),
@@ -79,8 +78,8 @@ for(d in dispersal){
               '\trange_limit = range_limit,\n',
               '\tnsims = nsims,\n',
               '\tprogress = FALSE,\n',
-              '\tstability_years = stability_years\n',
-              '\tpop_structure ="hardcoded"',
+              '\tstability_years = stability_years,\n',
+              '\tpop_structure ="uniform"',
               ')\n\n',
               
               '# Save to disk\n',

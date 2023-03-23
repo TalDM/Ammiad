@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Submit the BRMS model script to run on the cluster.
+# Submit a script to summarise the simmiad output into a more useable format.
+# This is heavy enough lifting to warrant a SLURM job that saves the output.
 
 #SBATCH --job-name=summarise_sims
 #SBATCH --nodes=1
@@ -11,7 +12,7 @@
 #SBATCH --error=simulations/neutral/slurm/summarise_sims%J.err
 
 # ENVIRONMENT #
-module load build-env/f2022
-module load r/4.0.2-foss-2018b
+ml build-env/f2022
+ml r/4.1.2-foss-2021b
 
 Rscript simulations/neutral/003.summarise_simulations.R

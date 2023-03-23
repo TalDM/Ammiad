@@ -8,10 +8,12 @@
 #SBATCH --output=simulations/neutral/slurm/%J.out
 #SBATCH --error=simulations/neutral/slurm/%J.err
 #SBATCH --mem-per-cpu=10GB
-#SBATCH --qos=long
-#SBATCH --time=4-00:00:00
+#SBATCH --qos=medium
+#SBATCH --time=1-12:00:00
 #SBATCH --ntasks=1
-#SBATCH --array=0-255
+#SBATCH --array=16,18,49,98
+
+#-255
 
 # ENVIRONMENT #
 ml build-env/f2022
