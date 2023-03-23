@@ -43,26 +43,8 @@ seeds   <- read_csv(
   rename(seed_area = Area...2, seed_length = Length...3, seed_width = Width...4) %>% 
   dplyr::select(block, new_dgg, seed_area, seed_length, seed_width)
 
-
-# Blocks are defined as two rows of plants on the same irrigation line.
-# These lines are parallel to each other.
-# To allow for variation perpendicular to that, let's also add an extra 'row'
-# level.
-# Import a map of the experiment
-blocks <- read_csv("data/20210110_blocks_common_garden_nethouse.csv")
-# Flatten the map, and add eight strata of six plants per block.
-blocks <- blocks %>% 
-  mutate(
-    row = rep(1:8, each = 6)
-  ) %>% 
-  pivot_longer(block1...1: block6...12, values_to = "new_dgg", names_to = 'block') %>% 
-  mutate(
-    block = substr(block, 6,6)
-  )
-
 # Join phenotype and block files.
 pheno <- pheno %>% 
-  left_join(seeds, by =c("block", "new_dgg")) %>% 
-  left_join(blocks, by =c("block", "new_dgg"))
+  left_join(seeds, by =c("block", "new_dgg"))
 
-rm(blocks, seeds)
+rm(seeds)

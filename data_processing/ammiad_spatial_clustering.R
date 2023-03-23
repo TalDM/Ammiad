@@ -3,7 +3,10 @@
 #' sampling points at a given distance. Sampling points are grouped into 5m
 #' bins.
 #' 
-#' #' This assumes you have imported and formatted the data using 
+#' Then, repeat this for each year separately, and keep the probability of 
+#' finding identical genotypes for sampling points within 5m only.
+#' 
+#' This assumes you have imported and formatted the data using 
 #' source("data_processing/import_field_occupancy_data.R").
 #' 
 #' Returns a tibble `obs_di` ('di' is short for 'distance identity') giving 
@@ -50,4 +53,8 @@ for(tr in LETTERS[1:4]){
 # Join the list elements into a single dataframe
 obs_di <- do.call('rbind', obs_di)
 
+
+
 rm(d, di)
+
+
