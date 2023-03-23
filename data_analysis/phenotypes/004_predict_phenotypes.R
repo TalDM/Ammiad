@@ -14,9 +14,9 @@ source("data_analysis/habitat_permutations/permutation_functions.R")
 # imports them.
 # Import the saved models, or return an error if they don't exist
 if(length(Sys.glob("data_analysis/phenotypes/brms_fits/*rds")) == 14){
-  source("data_analysis/phenotypes/002_linear_models.R")
+  source("data_analysis/phenotypes/001_linear_models.R")
 } else{
-  stop("Model fits not found. Please run data_analysis/phenotypes/002_linear_models.R first.")
+  stop("Model fits not found. Please run data_analysis/phenotypes/001_linear_models.R first.")
 }
 
 # Create a data frame to pass to posterior_predict.
@@ -104,6 +104,6 @@ null_sd <- lapply(null_sd, function(x) x / rowSums(x) )
 
 # Save the output for later
 saveRDS(pred_sd, file = "data_analysis/phenotypes/pred_sd.rds")
-saveRDS(null_sd, file = "data_analysis/phenotypes/pred_sd.rds")
+saveRDS(null_sd, file = "data_analysis/phenotypes/null_sd.rds")
 
 

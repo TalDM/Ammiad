@@ -21,8 +21,9 @@ library(QGglmm)
 # Linear models were fitted in this script and saved. Rerunning the script
 # imports them.
 # Import the saved models, or return an error if they don't exist
+# If you haven't run the models yet, that will take some time...
 if(length(Sys.glob("data_analysis/phenotypes/brms_fits/*rds")) == 14){
-  source("data_analysis/phenotypes/002_linear_models.R")
+  source("data_analysis/phenotypes/001_linear_models.R")
 } else{
   stop("Model fits not found. Please run data_analysis/phenotypes/002_linear_models.R first.")
 }
@@ -115,7 +116,7 @@ data.frame(
 
 ggsave(
   device = 'jpg', width = 16.9, height = 12, units = 'cm',
-  filename = "data_analysis/phenotypes/heritability.jpg",
+  filename = "data_analysis/phenotypes/figures/heritability.jpg",
 )
 
 # Plot heritability on both the link and data scales.

@@ -1,5 +1,12 @@
-readRDS("data_analysis/phenotypes/pred_sd.rds")
-readRDS("data_analysis/phenotypes/null_sd.rds")
+#' 
+
+library("tidyverse")
+library("ggpubr")
+
+source("data_analysis/phenotypes/001_linear_models.R")
+
+pred_sd <- readRDS("data_analysis/phenotypes/pred_sd.rds")
+null_sd <- readRDS("data_analysis/phenotypes/null_sd.rds")
 
 pd <- position_dodge(.5)
 
@@ -40,7 +47,7 @@ plot_pve_year <- prepare_predictions_for_plotting(1) %>%
   geom_errorbar( aes(xmin = lower, xmax=upper), position= pd, width=0 ) +
   geom_point(position=pd) +
   labs(
-    x = "% variance explained"
+    x = ""
   ) +
   lims(
     x = c(0, 40)
@@ -57,7 +64,7 @@ plot_pve_habitat <- prepare_predictions_for_plotting(2) %>%
   geom_errorbar( aes(xmin = lower, xmax=upper), position= pd, width=0 ) +
   geom_point(position=pd) +
   labs(
-    x = "% variance explained"
+    x = ""
   ) +
   theme_bw() +
   scale_colour_manual(values = c("#4285f4", "#ea4335", "#fbbc05", "#34a853")) +
@@ -75,12 +82,13 @@ plot_pve <- ggpubr::ggarrange(
   vjust = 0.3,
   widths = c(1, 0.625)
 )
-plot_pve <- annotate_figure(plot_pve,
-                            bottom = text_grob("Percent variance explained by habitat")
+plot_pve <- annotate_figure(
+  plot_pve,
+  bottom = text_grob("Percent variance explained by habitat")
 )
-plot_pve
-# ggsave(plot = plot_pve,
-#   filename = "data_analysis/phenotypes/phenotypic_differentiation.pdf",
-#   device = "pdf",
-#   width = 16.9, height = 10, units="cm"
-# )
+
+ggsave(plot = plot_pve,
+  filename = "data_analysis/phenotypes/figures/phenotypic_differentiation.jpg",
+  device = "jpg",
+  width = 16.9, height = 10, units="cm"
+)
