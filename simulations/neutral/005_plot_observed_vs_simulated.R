@@ -55,12 +55,3 @@ p2 <- ggplot(obs_stability, aes(x=n_years, y = stability, colour=transect)) +
   ) +
   scale_colour_manual(values = c("#4285f4", "#ea4335", "#fbbc05", "#34a853")) +
   theme_bw()
-
-ggarrange(p1, p2,
-          common.legend = TRUE, labels = "AUTO"
-)
-
-ggsave(
-  filename = "simulations/neutral/figures/plot_observed_vs_simulated.png",
-  device = 'png', height = 10, width = 16.9, units = "cm"
-)

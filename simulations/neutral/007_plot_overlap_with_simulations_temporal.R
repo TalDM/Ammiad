@@ -88,13 +88,13 @@ names(disp.labs) <- c(0.5, 0.75, 1, 2)
 out.labs <- paste(c(0.005, 0.02, 0.04, 0.08)*100, "%", sep="")
 names(out.labs) <- c(0.005, 0.02, 0.04, 0.08)
 
-p_stability %>% 
+plot_stability <- p_stability %>% 
   ggplot(aes( x = n_years, y = prob, colour=density, linetype=dormancy  )  ) + 
   geom_line() +
   theme_bw()+ 
   labs(
     x = "Years between harvests",
-    y = "Proportion of replicates overlapping with observed data",
+    y = "Proportion of replicates",
     linetype="Dormancy",
     color ="Density"
   ) +
@@ -104,7 +104,7 @@ p_stability %>%
     labeller = labeller(outcrossing_rate = out.labs, mean_dispersal_distance = disp.labs)
   ) 
 
-ggsave(
-  filename = "simulations/neutral/figures/overlap_with_simulations_temporal.png",
-  device = 'png', width = 16.9, units = "cm"
-  )
+# ggsave(
+#   filename = "simulations/neutral/figures/overlap_with_simulations_temporal.png",
+#   device = 'png', width = 16.9, units = "cm"
+#   )
