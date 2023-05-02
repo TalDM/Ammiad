@@ -16,11 +16,13 @@ knitr::opts_chunk$set(echo = FALSE, cache=T, cache.lazy=T, fig.align='center', w
 
 library("tidyverse")
 
-source("habitat_permutations/permutation_functions.R")
+source("data_analysis/habitat_permutations/permutation_functions.R")
+
+source("data_processing/import_field_occupancy_data.R")
 
 ```
 
-```{r format-sampling-points}
+```{r format-sampling-points, eval = FALSE}
 #' Format genotype and position data
 #' Tom Ellis April 2021
 #'
@@ -88,7 +90,7 @@ for(y in 1:length(years)){
     arrange(transect, dist)
   # Perform rotations and calculated sorting by microhabitat.
   permutations[[y]] <- habitat_permutations(
-    genotype = this_year$IGG,
+    genotype = this_year$DGG,
     habitat = this_year$Habitat,
     nreps=1000
   )

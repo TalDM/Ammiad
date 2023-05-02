@@ -10,6 +10,7 @@
 #' of sampling point that could be compared.
 #' 
 #' Tom Ellis
+library(simmiad)
 
 if ( !exists('obs_geno') ){
   stop("Table of observed genotypes not found. Please run source('data_processing/import_field_occupancy_data.R') before running this script.")
@@ -51,7 +52,7 @@ for(t in LETTERS[1:4]){
         this_trans[[counter]] <- c(
           year_one = years[i],
           year_two = years[j],
-          stability = transect_stability(year_one$IGG[ix], year_two$IGG[jx]),
+          stability = transect_stability(year_one$DGG[ix], year_two$DGG[jx]),
           n = (!is.na(ix) & !is.na(jx)) %>% sum()
         )
         counter <- counter +1

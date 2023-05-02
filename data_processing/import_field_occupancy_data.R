@@ -11,10 +11,12 @@ years <- c(1984, 1988, 1992, 1996, 2002, 2014, 2016, 2018, 2020)
 # Import data on genotype occupancy.
 # Filter to give unique ID, sampling point, unique genotype, year, transect and distance
 obs_geno <- read_csv(
-  "data/output.csv",
-  col_types = cols()
+  "data/dataset_S1.csv",
+  col_types = cols(),
+  col_select = c(
+    'Sample', 'Position', 'DGG', 'Year', 'Habitat', 'dist'
+  )
 ) %>%
-  dplyr::select(Sample, Position, IGG, Year, Habitat, dist) %>%
   # Zavitan is the ref genome control; TTD is plants from other populations.
   filter(Position != "Zavitan" & Position != "TTD")
 

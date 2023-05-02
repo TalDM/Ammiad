@@ -6,7 +6,7 @@
 
 require(geosphere)
 
-csv = read.csv("data/2020_plant_densities.csv",colClasses="character")
+csv = read.csv("data/raw_data/2020_plant_densities.csv",colClasses="character")
 
 #get dists between plants to next plants and add to data.frame
 nPlants_a = nrow(csv)

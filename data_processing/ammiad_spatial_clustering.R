@@ -15,7 +15,7 @@
 #' that could be compared, an integer value for the bin, and transect.
 #' 
 #' Tom Ellis
-
+library(simmiad)
 
 if ( !exists('obs_geno') ){
   stop("Table of observed genotypes not found. Please run `source('data_processing/import_field_occupancy_data.R')` before running this script.")
@@ -32,7 +32,7 @@ for(tr in LETTERS[1:4]){
   # Shows how often two sampling points 'matched' (same IGG at both point in a year)
   # This is averaged over years (n=number of years they could be compared)
   di <- distance_identities(
-    genotypes = split(d$IGG, d$Year), 
+    genotypes = split(d$DGG, d$Year), 
     positions = split(d$dist, d$Year)[[1]]
   ) %>% 
     filter( !is.nan(matches))

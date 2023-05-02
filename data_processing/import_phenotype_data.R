@@ -1,8 +1,7 @@
 #' Import data on phenotypes for plants grown in a common-garden nethouse
 #' experiment
 library('tidyverse')
-# Data file with eleven vegetative phenotypes
-pheno <- read_csv("data/pheno_20_21_data.csv", show_col_types = FALSE)
+
 # function to convert string dates into integer days since 1st January 2020.
 str2date <- function(dates) {
   year <- as.numeric(substr(dates, 1,4)) - 2020
@@ -16,6 +15,19 @@ str2date <- function(dates) {
   
   year*365 + month*n_days + day
 }
+
+# Data file with eleven vegetative phenotypes
+pheno <- read_csv("data/dataset_S2.csv", show_col_types = FALSE)
+
+#' DGG calling was updated during the experiment with a lower threshold for
+#' identity. Based on the new calls, three pairs of old DGGs were called as a
+#' single DGG, meaning they are overrepresented. Remove one set of replicates
+#' and keep only the new DGG names.
+pheno <- pheno %>% 
+  dplyr::select(-old_dgg) %>% 
+  rename(dgg = new_dgg) %>% 
+  filter( grepl("_2", .$dgg) )
+
 # Format those phenotypes
 pheno <- pheno %>% 
   # Change dates to usable integers and coleptile colour to binary
@@ -33,18 +45,18 @@ pheno <- pheno %>%
 
 # Import data on seed traits
 seeds   <- read_csv(
-  "data/mean_median_var_seed_size.csv", show_col_types = FALSE
+  "data/raw_data/mean_median_var_seed_size.csv", show_col_types = FALSE
 ) %>% 
   filter( !grepl("ZAVITAN", X1), !grepl("N2", X1) ) %>% 
   mutate(
     block = substr(X1, 6,6),
-    new_dgg = substr(X1, 7,10)
+    dgg = substr(X1, 7,10)
   ) %>% 
   rename(seed_area = Area...2, seed_length = Length...3, seed_width = Width...4) %>% 
-  dplyr::select(block, new_dgg, seed_area, seed_length, seed_width)
+  dplyr::select(block, dgg, seed_area, seed_length, seed_width)
 
 # Join phenotype and block files.
 pheno <- pheno %>% 
-  left_join(seeds, by =c("block", "new_dgg"))
+  left_join(seeds, by =c("block", "dgg"))
 
 rm(seeds)
