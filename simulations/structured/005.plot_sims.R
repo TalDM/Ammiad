@@ -5,6 +5,9 @@ source("data_processing/import_field_occupancy_data.R")
 source('data_processing/ammiad_spatial_clustering.R')
 source('data_processing/ammiad_temporal_stability.R')
 
+# Import simulation data
+sim_di_by_year <- readRDS("simulations/structured/output/simmiad_summary.Rds")
+
 # Calculate the distance identity by year, and take the probabilities for 
 # sampling points within 5m of one another
 # Empty list with an element for each transect.
@@ -28,29 +31,15 @@ for(tr in LETTERS[1:4]){
 }
 obs_di_by_year <- do.call('rbind', obs_di_by_year)
 
-simfiles <- Sys.glob("simulations/structured/output/**/di_by_year.csv")
-summarise_di_by_year <- function(file){
-  m <- read_csv(file, col_names = FALSE, show_col_types = FALSE)
-  out <- data.frame(
-    transect = "sim",
-    start_year = strsplit(file, "_")[[1]][3],
-    harvest = 1983 + (1:ncol(m)),
-    mean = colMeans(m),
-    lower = apply(m, 2, quantile, 0.025),
-    upper = apply(m, 2, quantile, 0.975)
-  )
-  
-  out
-}
-sim_di_by_year <- lapply(simfiles, summarise_di_by_year) %>% 
-  do.call(what = 'rbind')
-
-obs_di_by_year %>% 
+plot_di_by_year <- obs_di_by_year %>% 
   ggplot(aes( x = harvest, y = mean, colour = transect, group = transect )) +
   geom_line() +
   geom_point() +
   geom_ribbon(
-    data = sim_di_by_year %>% filter(start_year == '1984'), 
+    data = sim_di_by_year %>% 
+      filter(
+        start_year == '1984',
+        dispersal == 1, outcrossing == 0.04, density == 3, dormancy == 0.3), 
     aes( ymin = lower, ymax = upper ),
     colour = 'grey', fill="grey", alpha = 0.5
   ) + 
@@ -61,4 +50,36 @@ obs_di_by_year %>%
     x = "Harvest year",
     y = "Prob. same DGG"
   ) +
+  scale_colour_manual(values = c("#4285f4", "#ea4335", "#fbbc05", "#34a853")) +
   theme_bw()
+
+# New facet label names for dispersal distances
+disp.labs <- paste(c(0.5, 0.75, 1, 2),"m",sep="")
+names(disp.labs) <- c(0.5, 0.75, 1, 2)
+# New facet label names for outcrossing
+out.labs <- paste(c(0.005, 0.02, 0.04, 0.08)*100, "%", sep="")
+names(out.labs) <- c(0.005, 0.02, 0.04, 0.08)
+
+sim_di_by_year %>% 
+  ggplot(aes( x = harvest, y = mean, colour=as.factor(density), linetype=as.factor(dormancy) )) +
+  geom_line() +
+  theme_bw()+ 
+  labs(
+    x = "Harvest year",
+    y = "Prob. same DGG",
+    linetype="Dormancy",
+    color ="Density"
+  ) +
+  theme(
+    axis.text.x =element_text(angle = 45, hjust = 1)
+  ) +
+  facet_grid(
+    outcrossing ~ dispersal,
+    labeller = labeller(outcrossing = out.labs, dispersal = disp.labs)
+  )
+
+ggsave(
+  filename = "simulations/structured/sim_di_by_year.png",
+  device = "png", width = 16.9, units = 'cm'
+  )
+

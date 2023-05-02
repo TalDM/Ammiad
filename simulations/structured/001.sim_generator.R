@@ -21,17 +21,17 @@ dir.create(out_dir, showWarnings = FALSE)
 source("data_processing/import_field_occupancy_data.R") 
 
 # Initialise parameters
-years <- unique(obs_geno$Year)
-dispersal <- 1
-outcrossing_rate <- 0.04
+years <- 1984
+dispersal <- c(0.5, 0.75, 1, 2)
+outcrossing_rate <- c(0.5, 2, 4, 8) / 100
 n_generations <- 100
-density <- 4
-dormancy <- 0.3
+density <- c(1, 2, 3, 5)
+dormancy <- c(0, 0.1, 0.3, 0.5)
 n_sample_points <- 30 
 sample_spacing <- 5
 nsims <- 100
 range_limit= 1.5
-stability_years <- n_generations
+stability_years <- n_generations-1
 
 for(d in dispersal){
   for(o in outcrossing_rate){
