@@ -23,13 +23,16 @@ pheno <- read_csv("data/dataset_S2.csv", show_col_types = FALSE)
 #' identity. Based on the new calls, three pairs of old DGGs were called as a
 #' single DGG, meaning they are overrepresented. Remove one set of replicates
 #' and keep only the new DGG names.
-pheno <- pheno %>% 
-  dplyr::select(-old_dgg) %>% 
+pheno <- pheno %>%
+  dplyr::select(-old_dgg) %>%
   rename(dgg = new_dgg) %>% 
-  filter( grepl("_2", .$dgg) )
+  filter( !grepl("_1", .$dgg), dgg != "zavitan") %>%
+  mutate(
+    dgg = str_replace(dgg, "_[1,2]$", "")
+  )
 
 # Format those phenotypes
-pheno <- pheno %>% 
+pheno <- pheno %>%
   # Change dates to usable integers and coleptile colour to binary
   mutate(
     germination_date = ifelse( grepl("trans", germination_date), NA, germination_date ), # Remove nonsense entries
@@ -58,5 +61,7 @@ seeds   <- read_csv(
 # Join phenotype and block files.
 pheno <- pheno %>% 
   left_join(seeds, by =c("block", "dgg"))
+
+pheno$dgg %>%  unique
 
 rm(seeds)

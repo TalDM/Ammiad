@@ -9,8 +9,8 @@
 #SBATCH --qos=medium
 #SBATCH --time=4:00:00
 #SBATCH --mem=20gb
-#SBATCH --output=nethouse_models_%J.out
-#SBATCH --error=nethouse_models_%J.err
+#SBATCH --output=data_analysis/phenotypes/slurm/nethouse_models_%J.out
+#SBATCH --error=data_analysis/phenotypes/slurm/nethouse_models_%J.err
 
 # ENVIRONMENT #
 module load build-env/f2022

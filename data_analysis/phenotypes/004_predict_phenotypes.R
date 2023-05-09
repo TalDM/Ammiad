@@ -3,8 +3,8 @@
 #' This script uses the fitted models to generate posterior draws for plants in
 #' the real transects, and estimates the variance explained by habitat and year
 #' for each trait. It then rotates the vector of phenotypes
-#' 
-#'
+
+set.seed(93)
 
 library(lme4)
 library(tidyverse)
@@ -19,17 +19,15 @@ if(length(Sys.glob("data_analysis/phenotypes/brms_fits/*rds")) == 14){
   stop("Model fits not found. Please run data_analysis/phenotypes/001_linear_models.R first.")
 }
 
+
 # Create a data frame to pass to posterior_predict.
 # After removing duplicates, we are left with 801 samples
 # Need to merge with DGG names from pheno, because the field data uses old names.
-new_data <- pheno %>% 
-  dplyr::select(old_dgg, new_dgg) %>% 
-  distinct() %>% 
-  right_join(
-    obs_geno, by = c("old_dgg" = "IGG")
-  ) %>%
-  filter( !is.na(new_dgg) ) %>%
-  arrange(Year, transect, dist) %>% 
+new_data <- obs_geno %>%
+  # rename(DGG = IGG) %>% 
+  filter( !is.na(DGG) ) %>%
+  rename(dgg = DGG) %>% 
+  arrange(Year, transect, dist) %>%
   mutate(block = sample(1:4, 1)) # we need to pretend there is a block so `predict` will work
 
 ndraws = 1000 # Number of posterior draws for each plant.
@@ -50,7 +48,7 @@ for(m in names(model_fits) ){
     ndraws = ndraws,
     summary = FALSE,
     scale = "linear",
-    re_formula = ~ (1 | new_dgg), # Don't simulate block effects
+    re_formula = ~ (1 | dgg), # Don't simulate block effects
     # Allows for genotypes in the field that were not in the common garden
     allow_new_levels = TRUE,
     # Phenotypes for new genotypes are drawn from the Gaussian dist of other genotypes
@@ -83,9 +81,9 @@ for(m in names(model_fits)){
     # Add an extra column which permutes phenotypes within each transect within each year
     glm_data$z_perm <- glm_data %>%
       split(paste(.$Year)) %>% 
-      sapply(., function(x) rotate_vector(x$z, sample(1:nrow(x), size = 1))) %>% 
+      lapply(., function(x) rotate_vector(x$z, sample(1:nrow(x), size = 1))) %>% 
       # sapply(. , function(x) x[sample(1:nrow(x), size = nrow(x), replace = FALSE), 'z'] ) %>%
-      unlist()
+      do.call(what = 'c')
     # Fit GLMs for simulated and permuted data
     suppressMessages({
       pred_fit <- lmer( z ~      (1 | Habitat) + (1 | Year), data = glm_data)

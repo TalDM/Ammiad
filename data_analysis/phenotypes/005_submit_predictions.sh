@@ -7,8 +7,8 @@
 #SBATCH --qos=medium
 #SBATCH --time=4:00:00
 #SBATCH --mem=20gb
-#SBATCH --output=predict_phenotypes_%J.out
-#SBATCH --error=predict_phenotypes_%J.err
+#SBATCH --output=data_analysis/phenotypes/slurm/predict_phenotypes_%J.out
+#SBATCH --error=data_analysis/phenotypes/slurm/predict_phenotypes_%J.err
 
 # ENVIRONMENT #
 module load build-env/f2022

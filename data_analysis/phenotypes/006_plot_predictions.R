@@ -87,6 +87,8 @@ plot_pve <- annotate_figure(
   bottom = text_grob("Percent variance explained by habitat")
 )
 
+plot_pve
+
 ggsave(plot = plot_pve,
   filename = "data_analysis/phenotypes/figures/phenotypic_differentiation.jpg",
   device = "jpg",

@@ -29,7 +29,7 @@ if(length(Sys.glob("data_analysis/phenotypes/brms_fits/*rds")) == 14){
 }
 
 # Function to set up and run the heritability calculation
-qgparams_brms <- function(brms_model, genotype = "new_dgg", linkfun=NULL, link_scale_only = FALSE){
+qgparams_brms <- function(brms_model, genotype = "dgg", linkfun=NULL, link_scale_only = FALSE){
   # If linkfun is not given explicitly, try and work it out from the model itself.
   if( is.null(linkfun) ) {
     family <- brms_model$family$family

@@ -45,7 +45,7 @@ for(var in gaussian_vars){
   cat("Fitting the BRMS model for ", var, "... ", sep="")
   t0 <- Sys.time()
   # Regression formula
-  frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | new_dgg)"))
+  frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | dgg)"))
   # Path to save the model output
   model_path <- paste0("data_analysis/phenotypes/brms_fits/", var, "_fit.rds")
   # Fit the model
@@ -63,10 +63,10 @@ for(var in gaussian_vars){
 
 # Fit models for poisson variables
 for(var in poisson_vars){
-  cat("Fitting the BRMS model for", var, ".\n")
+  cat("Fitting the BRMS model for ", var, "... ", sep="")
   t0 <- Sys.time()
   # Regression formula
-  frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | new_dgg)"))
+  frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | dgg)"))
   # Path to save the model output
   model_path <- paste0("data_analysis/phenotypes/brms_fits/", var, "_fit.rds")
   # Fit the model
@@ -85,10 +85,10 @@ for(var in poisson_vars){
 
 # Fit the models for ordinal variables
 for(var in ordinal_vars){
-  cat("Fitting the BRMS model for", var, ".\n")
+  cat("Fitting the BRMS model for ", var, "... ", sep="")
   t0 <- Sys.time()
   # Regression formula
-  frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | new_dgg)"))
+  frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | dgg)"))
   # Path to save the model output
   model_path <- paste0("data_analysis/phenotypes/brms_fits/", var, "_fit.rds")
   # Fit the model
@@ -108,7 +108,7 @@ for(var in ordinal_vars){
 var <- "coleptile_color"
 t0 <- Sys.time()
 # Regression formula
-frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | new_dgg)"))
+frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | dgg)"))
 # Path to save the model output
 model_path <- paste0("data_analysis/phenotypes/brms_fits/", var, "_fit.rds")
 # Fit the model
