@@ -21,7 +21,7 @@ if(length(Sys.glob("data_analysis/phenotypes/brms_fits/*rds")) == 14){
 
 
 # Create a data frame to pass to posterior_predict.
-# After removing duplicates, we are left with 801 samples
+# After removing duplicates, we are left with 832 samples
 # Need to merge with DGG names from pheno, because the field data uses old names.
 new_data <- obs_geno %>%
   # rename(DGG = IGG) %>% 
@@ -58,6 +58,12 @@ for(m in names(model_fits) ){
   sim_data[[m]] <- apply(sim_data[[m]], 1, scale)
 }
 
+# Save a table of Habitat labels plus scaled phenotypes
+mean_phenotypes <- data.frame(
+  habitat = new_data$Habitat,
+  sapply(sim_data, rowMeans)
+)
+write_csv(mean_phenotypes, file = "data_analysis/phenotypes/mean_phenotypes_for_lda.csv")
 
 #' Estimate variance explained by Habitat for each trait separately
 #' Permute habitat positions within each transect, within each year, and reestimate variance explained.

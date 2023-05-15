@@ -22,11 +22,11 @@ pheno <- read_csv("data/dataset_S2.csv", show_col_types = FALSE)
 #' DGG calling was updated during the experiment with a lower threshold for
 #' identity. Based on the new calls, three pairs of old DGGs were called as a
 #' single DGG, meaning they are overrepresented. Remove one set of replicates
-#' and keep only the new DGG names.
+#' and remove the underscores.
 pheno <- pheno %>%
   dplyr::select(-old_dgg) %>%
   rename(dgg = new_dgg) %>% 
-  filter( !grepl("_1", .$dgg), dgg != "zavitan") %>%
+  filter( !grepl("_2", .$dgg), dgg != "zavitan") %>%
   mutate(
     dgg = str_replace(dgg, "_[1,2]$", "")
   )
