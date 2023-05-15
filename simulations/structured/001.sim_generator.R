@@ -31,7 +31,7 @@ n_sample_points <- 30
 sample_spacing <- 5
 nsims <- 100
 range_limit= 1.5
-stability_years <- n_generations-1
+years_to_sample <- '1:n_generations'
 
 for(d in dispersal){
   for(o in outcrossing_rate){
@@ -58,7 +58,7 @@ for(d in dispersal){
             "# Simulation parameters",
             "\ndispersal <-", d,
             "\noutcrossing <-", o,
-            "\nstarting_genotypes <- obs_geno$IGG[obs_geno$Year ==", y, "]",
+            "\nstarting_genotypes <- obs_geno$DGG[obs_geno$Year ==", y, "]",
             "\ndensity <-", a,
             "\ndormancy <-", s,
             "\nn_generations <-", n_generations,
@@ -66,7 +66,7 @@ for(d in dispersal){
             "\nsample_spacing <-", sample_spacing,
             "\nrange_limit <-", range_limit,
             "\nnsims <-", nsims,
-            "\nstability_years <-", stability_years,
+            "\nyears_to_sample <-", years_to_sample,
             "\nfilename <- '", fname, "'",
             "\n\n",
             
@@ -83,7 +83,7 @@ for(d in dispersal){
             '\trange_limit = range_limit,\n',
             '\tnsims = nsims,\n',
             '\tprogress = FALSE,\n',
-            '\tstability_years = 1:stability_years,\n',
+            '\tyears_to_sample = years_to_sample,\n',
             '\tpop_structure = "hardcoded"',
             ')\n\n',
             
