@@ -18,13 +18,13 @@ slurm_dir <- "simulations/structured/slurm"
 dir.create(out_dir, showWarnings = FALSE)
 
 # Import field data
-source("data_processing/import_field_occupancy_data.R") 
+# source("data_processing/import_field_occupancy_data.R") 
 
 # Initialise parameters
 years <- 1984
 dispersal <- c(0.5, 0.75, 1, 2)
 outcrossing_rate <- c(0.5, 2, 4, 8) / 100
-n_generations <- 100
+n_generations <- 40
 density <- c(1, 2, 3, 5)
 dormancy <- c(0, 0.1, 0.3, 0.5)
 n_sample_points <- 30 
@@ -68,6 +68,7 @@ for(d in dispersal){
             "\nnsims <-", nsims,
             "\nyears_to_sample <-", years_to_sample,
             "\nfilename <- '", fname, "'",
+            "\nhabitat_labels <- obs_geno$Habitat[obs_geno$Year ==", y, "]",
             "\n\n",
             
             "# Code to run the simulation\n",
@@ -84,7 +85,8 @@ for(d in dispersal){
             '\tnsims = nsims,\n',
             '\tprogress = FALSE,\n',
             '\tyears_to_sample = years_to_sample,\n',
-            '\tpop_structure = "hardcoded"',
+            '\tpop_structure = "hardcoded",\n',
+            '\thabitat_labels = habitat_labels\n',
             ')\n\n',
             
             '# Save to disk\n',

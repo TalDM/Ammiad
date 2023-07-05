@@ -5,22 +5,52 @@
 library("tidyverse")
 
 # Where the simulation results are
-simdir <- Sys.glob("simulations/structured/output/*")
+simdir <- Sys.glob("simulations/structured/output/*/")
+
+items_to_ignore <- grep("d[0-9]+_o[0-9]+", simdir, invert = TRUE, value = TRUE)
+if( length(items_to_ignore) >0 ){
+  cat(length(items_to_ignore), "item(s) in the target folder don't seem to simulation results and will be ignored:\n")
+  items_to_ignore
+  cat("\n\n")
+}
+# Exclude entries that don't match a pattern
+simdir <- grep("d[0-9]+_o[0-9]+", simdir, value = TRUE)
+
+# cld <- Sys.glob("simulations/structured/output/*/clustering_by_habitat.csv")
+# cld <- substr(cld, 1,54)
+# 
+# simdir[  !simdir %in% cld ]
+# 
+# dir("simulations/structured/simmiad_scripts/")[ which(  !simdir %in% cld ) ]
+
+# all_sims <- substr(Sys.glob("simulations/structured/simmiad_scripts/*R"), 40, 62)
+# cld <- Sys.glob("simulations/structured/output/*")
+# cld <- substr(cld, 31,100)
+# 
+# all_sims[ which( !all_sims %in% cld )]
+
+
 # Function to import results and parameter values, and return a table with a row
 # for each generation giving input parameters, plus the probability of identical
 # genotypes at adjacent sampling points averaged over repicates, with 95% CIs.
-summarise_di_by_year <- function(indir){
+summarise_by_year <- function(indir, file_name = 'di_by_year.csv'){
+  path <- paste0(indir, "/", file_name)
+  
+  if( !file.exists(path) ){
+    warning("File not found:", path, "\n")
+    return(NULL)
+  } else {
   m <- read_csv(
-    paste0(indir, "/di_by_year.csv"), 
+    path, 
     col_names = FALSE, show_col_types = FALSE
-    )
+  )
   p <- read_csv(
     paste0(indir, "/parameters.csv"), 
     col_names = c('param', 'value'), show_col_types = FALSE
   )
   out <- data.frame(
     transect = "sim",
-    start_year = strsplit(file, "_")[[1]][3],
+    start_year = strsplit(indir, "_")[[1]][3],
     harvest = 1983 + (1:ncol(m)),
     dispersal   = p$value[p$param == "mean_dispersal_distance"],
     outcrossing = p$value[p$param == "outcrossing_rate"],
@@ -31,10 +61,41 @@ summarise_di_by_year <- function(indir){
     upper = apply(m, 2, quantile, 0.975, na.rm=TRUE)
   )
   
-  out
+  return(out)
+  }
 }
 
-sim_di_by_year <- lapply(simdir, summarise_di_by_year) %>% 
+cat("Summarising di_by_year.csv.\n")
+sim_di_by_year <- lapply(simdir, summarise_by_year, file_name = 'di_by_year.csv') %>% 
   do.call(what = 'rbind')
 
-saveRDS(sim_di_by_year, "simulations/structured/output/simmiad_summary.Rds")
+cat("Summarising clustering_by_habitat.csv\n")
+sim_habitat_by_year <- lapply(simdir, summarise_by_year, file_name = "clustering_by_habitat.csv") %>% 
+  do.call(what = 'rbind')
+
+cat("Saving to disk.\n")
+saveRDS(sim_di_by_year,      "simulations/structured/output/sim_di_by_year.rds")
+saveRDS(sim_habitat_by_year, "simulations/structured/output/sim_habitat_by_year.rds")
+
+
+
+
+if( file.exists('simulations/structured/output/sim_di_by_year.rds') ){
+  cat(
+    "File sim_di_by_year.rds created and has size",
+    file.size('simulations/structured/output/sim_di_by_year.rds'),
+    "\n"
+    )
+} else {
+  cat("File sim_di_by_year.rds not found.\n")
+}
+
+if( file.exists('simulations/structured/output/sim_habitat_by_year.rds') ){
+  cat(
+    "File sim_habitat_by_year.rds created and has size",
+    file.size('simulations/structured/output/sim_habitat_by_year.rds'),
+    '\n'
+    )
+} else {
+  cat("File sim_habitat_by_year.rds not found.")
+}

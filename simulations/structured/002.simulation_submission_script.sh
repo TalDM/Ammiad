@@ -5,8 +5,8 @@
 
 # SLURM
 #SBATCH --job-name=structured_sims
-#SBATCH --output=simulations/structured/slurm/%J.out
-#SBATCH --error=simulations/structured/slurm/%J.err
+#SBATCH --output=simulations/structured/slurm/structured_sims%J.out
+#SBATCH --error=simulations/structured/slurm/structured_sims%J.err
 #SBATCH --mem-per-cpu=10GB
 #SBATCH --qos=long
 #SBATCH --time=4-00:00:00

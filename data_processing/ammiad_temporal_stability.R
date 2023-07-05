@@ -40,13 +40,13 @@ for(t in LETTERS[1:4]){
         year_one <- obs_geno %>% 
           filter(transect == t & Year == years[i])
         ix <- match(sampling_pts[[t]],
-                    year_one %>% select(Position) %>% pull()
+                    year_one %>% dplyr::select(Position) %>% pull()
         )
         # Get genotype occupancies for year j, and index which are also in sampling_pts
         year_two <- obs_geno %>% 
           filter(transect == t & Year == years[j])
         jx <- match(sampling_pts[[t]],
-                    year_two %>% select(Position) %>% pull()
+                    year_two %>% dplyr::select(Position) %>% pull()
         )
         # Calculate stability for this transition, and the number of valid comparisons.
         this_trans[[counter]] <- c(
