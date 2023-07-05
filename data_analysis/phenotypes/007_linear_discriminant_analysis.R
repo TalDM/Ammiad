@@ -1,12 +1,16 @@
-
-
 library(tidyverse)
 library(ggpubr)
+library(MASS)
 
 mean_phenotypes <- read_csv(file = "data_analysis/phenotypes/mean_phenotypes_for_lda.csv", col_types = cols())
-# Remove phenotypes with very low heritability
+
 mean_phenotypes <- mean_phenotypes %>%
-  dplyr::select(-germination_date, -main_number_of_spikes, -number_of_tillers)
+  # Remove phenotypes with very low heritability
+  # dplyr::select(-germination_date, -main_number_of_spikes, -number_of_tillers) %>%
+  # Centre and scale
+  mutate_if(
+    is.numeric, scale
+  ) 
 
 lda_ammiad <- lda(habitat ~ ., data = mean_phenotypes)
 
@@ -44,6 +48,10 @@ lda_for_plotting <- tibble(
 ld_12 <- lda_for_plotting %>% 
   ggplot(aes(LD1, LD2, colour = habitat )) +
   geom_point() +
+  labs(
+    x = "LD1 (33.7%)",
+    y = "LD2 (26.6%)"
+  ) +
   theme_bw() +
   scale_colour_manual(
     values = c("#aa0000", "#ff5555", "#ff9955", "#ffe680",
@@ -52,6 +60,10 @@ ld_12 <- lda_for_plotting %>%
 ld_23 <- lda_for_plotting %>% 
   ggplot(aes(LD2, LD3, colour = habitat )) +
   geom_point() +
+  labs(
+    x = "LD2 (26.6%)",
+    y = "LD3 (18.7%)"
+  ) +
   theme_bw() +
   scale_colour_manual(
     values = c("#aa0000", "#ff5555", "#ff9955", "#ffe680",
@@ -59,7 +71,19 @@ ld_23 <- lda_for_plotting %>%
 
 plot_lda <- ggarrange(ld_12, ld_23, ncol = 2, common.legend = TRUE)
 
+ggsave(
+  filename = "data_analysis/phenotypes/figures/lda.pdf",
+  plot = plot_lda,
+  device = "pdf",
+  height = 10, width = 16.9, units = "cm"
+  )
+
+
 lda_ammiad$scaling %>% 
   as.data.frame() %>% 
-  write_csv("data_analysis/phenotypes/ld_loadings.csv")
+  mutate_all(round, 3) %>% 
+  rownames_to_column("variable") %>% 
+  arrange(variable) %>% 
+  write_csv("data_analysis/phenotypes/ld_loadings.csv", )
+
 

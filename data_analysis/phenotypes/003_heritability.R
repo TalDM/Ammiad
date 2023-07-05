@@ -90,7 +90,7 @@ h2 <- list(
 )
 
 # Plot heritability on the link scale only.
-data.frame(
+plot_heritability <- data.frame(
   trait = names(model_fits),
   mean = sapply(h2$link, function(x) mean(x$h2)),
   lower = sapply(h2$link, function(x) quantile(x$h2, 0.025)),
@@ -103,21 +103,22 @@ data.frame(
     "Tiller number", "Plant-base pigmentation", "Seed area", "Seed length",
     "Seed width", "Main-tiller spike angle", "Seed weight"
   )) %>% 
-  ggplot( aes(x=mean, y = trait_nice)) +
+  ggplot( aes(y=mean, x = trait_nice)) +
   geom_point() +
-  geom_errorbar(aes(xmin=lower, xmax=upper), width=0) +
+  geom_errorbar(aes(ymin=lower, ymax=upper), width=0) +
   labs(
-    x = "Broad-sense heritability"
+    y = "Broad-sense heritability"
   ) +
   theme_bw() +
   theme(
-    axis.title.y = element_blank()
+    axis.title.x = element_blank(),
+    axis.text.x = element_blank()
   )
 
-ggsave(
-  device = 'jpg', width = 16.9, height = 12, units = 'cm',
-  filename = "data_analysis/phenotypes/figures/heritability.jpg",
-)
+# ggsave(
+#   device = 'jpg', width = 16.9, height = 12, units = 'cm',
+#   filename = "data_analysis/phenotypes/figures/heritability.jpg",
+# )
 
 # Plot heritability on both the link and data scales.
 # Not run, because we thought this was confusing and unnecessary.

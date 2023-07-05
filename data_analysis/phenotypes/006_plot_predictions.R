@@ -19,22 +19,22 @@ prepare_predictions_for_plotting <- function(col){
     data.frame(
       trait = names(model_fits),
       Data  = "Predicted",
-      mean  = sapply(pred_sd, function(x) mean(x[,col])) * 100,
-      lower = sapply(pred_sd, function(x) quantile(x[,col], 0.025)) * 100,
-      upper = sapply(pred_sd, function(x) quantile(x[,col], 0.975)) * 100
+      mean  = sapply(pred_sd, function(x) mean(x[,col])),
+      lower = sapply(pred_sd, function(x) quantile(x[,col], 0.025)),
+      upper = sapply(pred_sd, function(x) quantile(x[,col], 0.975))
     ),
     # Rotated
     data.frame(
       trait = names(model_fits),
       Data  = "Rotated",
-      mean  = sapply(null_sd, function(x) mean(x[,col])) * 100,
-      lower = sapply(null_sd, function(x) quantile(x[,col], 0.025)) * 100,
-      upper = sapply(null_sd, function(x) quantile(x[,col], 0.975)) * 100
+      mean  = sapply(null_sd, function(x) mean(x[,col])),
+      lower = sapply(null_sd, function(x) quantile(x[,col], 0.025)),
+      upper = sapply(null_sd, function(x) quantile(x[,col], 0.975))
     )
   ) %>% 
     arrange(Data, trait) %>% 
     mutate(trait  = rep(c(
-      "Anthesis date", "Coleptile colour", "Erect growth habit", "Germination date",
+      "Anthesis date", "Coleoptile colour", "Erect growth habit", "Germination date",
       "Main flag-leaf width", "Main tiller length", "Main-tiller spikelet number",
       "Tiller number", "Plant-base pigmentation", "Seed area", "Seed length",
       "Seed width", "Main-tiller spike angle", "Seed weight"
@@ -42,55 +42,62 @@ prepare_predictions_for_plotting <- function(col){
     ) 
 }
 
-plot_pve_year <- prepare_predictions_for_plotting(1) %>% 
-  ggplot( aes( y = trait, x = mean, colour = Data )) +
-  geom_errorbar( aes(xmin = lower, xmax=upper), position= pd, width=0 ) +
-  geom_point(position=pd) +
-  labs(
-    x = ""
-  ) +
-  lims(
-    x = c(0, 40)
-  ) +
-  theme_bw() +
-  scale_colour_manual(values = c("#4285f4", "#ea4335", "#fbbc05", "#34a853")) +
-  theme(
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank()
-  )
+# plot_pve_year <- prepare_predictions_for_plotting(1) %>% 
+#   ggplot( aes( y = trait, x = mean, colour = Data )) +
+#   geom_errorbar( aes(xmin = lower, xmax=upper), position= pd, width=0 ) +
+#   geom_point(position=pd) +
+#   labs(
+#     x = ""
+#   ) +
+#   lims(
+#     x = c(0, 40)
+#   ) +
+#   theme_bw() +
+#   scale_colour_manual(values = c("#4285f4", "#ea4335", "#fbbc05", "#34a853")) +
+#   theme(
+#     axis.title.x = element_blank(),
+#     axis.title.y = element_blank()
+#   )
 
-plot_pve_habitat <- prepare_predictions_for_plotting(2) %>% 
-  ggplot( aes( y = trait, x = mean, colour = Data )) +
-  geom_errorbar( aes(xmin = lower, xmax=upper), position= pd, width=0 ) +
+plot_pve_habitat <- prepare_predictions_for_plotting(2) %>%
+  ggplot( aes( x = trait, y = mean, colour = Data )) +
+  geom_errorbar( aes(ymin = lower, ymax=upper), position= pd, width=0 ) +
   geom_point(position=pd) +
   labs(
-    x = ""
+    x = "",
+    y = "Variance explained by habitat"
   ) +
   theme_bw() +
   scale_colour_manual(values = c("#4285f4", "#ea4335", "#fbbc05", "#34a853")) +
   theme(
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank()
-  )
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    # axis.title.y = element_blank(),
+    # axis.text.y = element_blank(),
+    legend.title = element_blank(),
+    legend.position = 'bottom'
+  ) +
+  scale_y_continuous(labels = function(x) format(x, nsmall = 2))
+  
 
 plot_pve <- ggpubr::ggarrange(
-  plot_pve_year, plot_pve_habitat,
-  common.legend = TRUE, legend = 'top',
+  plot_heritability, plot_pve_habitat,
+  nrow = 2, ncol = 1,
+  common.legend = FALSE,
   labels = "AUTO",
-  hjust = c(-12, -1),
-  vjust = 0.3,
-  widths = c(1, 0.625)
-)
-plot_pve <- annotate_figure(
-  plot_pve,
-  bottom = text_grob("Percent variance explained by habitat")
-)
+  # hjust = c(-12, -1),
+  # widths = c(1.3, 1),
+  heights = c(0.6, 1)
+  )
+
+# plot_pve <- annotate_figure(
+#   plot_pve,
+#   bottom = text_grob("Percent variance explained by habitat")
+# )
 
 plot_pve
 
 ggsave(plot = plot_pve,
-  filename = "data_analysis/phenotypes/figures/phenotypic_differentiation.jpg",
-  device = "jpg",
-  width = 16.9, height = 10, units="cm"
+  filename = "data_analysis/phenotypes/figures/phenotypic_differentiation.pdf",
+  device = "pdf",
+  width = 12, height = 20, units="cm"
 )
