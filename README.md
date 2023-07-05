@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/428974285.svg)](https://zenodo.org/badge/latestdoi/428974285)
+
 <h1>Genetic analysis and simulations on Ammiad wild wheat population</h1>
 
 <h2> Summary </h2>
