@@ -22,52 +22,6 @@ source("data_processing/import_field_occupancy_data.R")
 
 ```
 
-```{r format-sampling-points, eval = FALSE}
-#' Format genotype and position data
-#' Tom Ellis April 2021
-#'
-#' This script formats data for comparing with simulations and microhabitat sorting.
-#' Crucially it ensures there is a row for every sampling point in every year, so
-#' that there are the same number of rows for each year.
-
-# Import data one which genotypes are found at each sampling point in each year.
-years <- c(1984, 1988, 1992, 1996, 2002, 2014, 2016, 2018, 2020)
-
-# Import data on genotype occupancy.
-# Filter to give unique ID, sampling point, unique genotype, year, transect and distance
-obs_geno <- read_csv(
-  "data/output.csv",
-  col_types = cols()
-) %>%
-  select(Sample, Position, IGG, Year, Habitat, dist) %>%
-  # Zavitan is the ref genome control; TTD is plants from other populations.
-  filter(Position != "Zavitan" & Position != "TTD")
-
-# Ensure you have the same number of entries for each transect-year
-obs_geno <- obs_geno %>%
-  # Column for transect labels
-  mutate(
-    transect = ifelse(
-      test = grepl("West", Position),
-      yes = "A West",
-      no = substr(Position, 1 ,1)
-    )
-  ) %>%
-  # Join the observed data to a synthetic dataframe that has all possible years and
-  # sampling points. If any are missing in reality, these will appear as NA.
-  right_join(
-    expand.grid(Position= unique(obs_geno$Position), Year=as.character(years)),
-    by = c("Position", "Year")
-  ) %>%
-  # Fill in the missing data for sampling points that were empty in certain years
-  group_by(Position) %>%
-  fill(dist, transect, Habitat, .direction = 'downup') %>%
-  ungroup() %>%
-  filter(!is.na(dist)) %>%
-  # reorder
-  arrange(Year, transect, dist)
-```
-
 One way to do this is to:
 
 1. Line all the habitat labels up across the transects, and join the ends to make a circle.
@@ -119,8 +73,15 @@ do.call('rbind', permutations) %>%
   scale_color_brewer(palette="Dark2") + 
   labs(
     x="Year",
-    y="Pairs of plants in same microhabitat"
-  )
+    y=expression("F"[st])
+  ) +
+  theme_bw()
+
+ggsave(
+  "data_analysis/habitat_permutations/habitat_permutations.pdf",
+  device = "pdf",
+  units = "cm", height  = 12, width = 12
+)
 
 ```
 

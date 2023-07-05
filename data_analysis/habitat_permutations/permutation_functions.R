@@ -1,29 +1,31 @@
-#' Do genotypes cluster by microhabitat?
-#'
-#' Calculates how many pairs of plants of the same genotype are also in the
-#' same microhabitat.
-#' 
-#' @param genotype Vector of genotype labels.
-#' @param habitat Vector of habitat labels of the same length as `genotype`.
-#' 
-#' @return Integer number of pairs of individuals sharing both genotype and 
-#' habitat
-#' @author Tom Ellis
-habitat_clustering <- function(genotype, habitat){
-  # if(length(genotype) != length(habitat)){
-  #   stop("`genotype` and `habitat` are different lengths.")
-  # }
-  # For all pairs of plants, check whether genotypes are the same
-  genotype_match <- combn(genotype, 2)
-  genotype_match <- genotype_match[1,] == genotype_match[2,]
-  # For all pairs of plants, check whether habitats are the same
-  habitat_match <- combn(habitat, 2)
-  habitat_match <- habitat_match[1,] == habitat_match[2,]
-  # Check whether genotype and habitat match.
-  both_match <- genotype_match * habitat_match
-  
-  return(sum(both_match, na.rm = T))
-}
+library("simmiad")
+
+#' #' Do genotypes cluster by microhabitat?
+#' #'
+#' #' Calculates how many pairs of plants of the same genotype are also in the
+#' #' same microhabitat.
+#' #' 
+#' #' @param genotype Vector of genotype labels.
+#' #' @param habitat Vector of habitat labels of the same length as `genotype`.
+#' #' 
+#' #' @return Integer number of pairs of individuals sharing both genotype and 
+#' #' habitat
+#' #' @author Tom Ellis
+#' habitat_clustering <- function(genotype, habitat){
+#'   # if(length(genotype) != length(habitat)){
+#'   #   stop("`genotype` and `habitat` are different lengths.")
+#'   # }
+#'   # For all pairs of plants, check whether genotypes are the same
+#'   genotype_match <- combn(genotype, 2)
+#'   genotype_match <- genotype_match[1,] == genotype_match[2,]
+#'   # For all pairs of plants, check whether habitats are the same
+#'   habitat_match <- combn(habitat, 2)
+#'   habitat_match <- habitat_match[1,] == habitat_match[2,]
+#'   # Check whether genotype and habitat match.
+#'   both_match <- genotype_match * habitat_match
+#'   
+#'   return(sum(both_match, na.rm = T))
+#' }
 
 #' Rotate elements in a vector
 #' 
@@ -71,7 +73,7 @@ habitat_permutations <- function(genotype, habitat, nreps){
       n = sample(1:length(permute_habitat), 1)
     )
     
-    permuted[i] <- habitat_clustering(genotype, permute_habitat)
+    permuted[i] <- simmiad::habitat_clustering(genotype, permute_habitat)
   }
   
   data.frame(
