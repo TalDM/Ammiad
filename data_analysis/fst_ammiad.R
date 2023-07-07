@@ -177,7 +177,7 @@ pvalues<-(data.plot %>% filter(Habitat=="between") %>% select(Fst)) -( data.plot
 pvalue<-1-sum(pvalues>0)/100 #0.031
 
 ############SUPPLEMENTARY CODE###################
-#Supplementary code to compute Fst from data in snpgds format
+#----------------Supplementary code to compute Fst from data in snpgds format-------------#
 
 mydata<-read.csv("../data/dataset_S1.csv",header=TRUE)
 mydata<-mydata[mydata$Position!="Zavitan",]
@@ -203,8 +203,9 @@ Transect_orders.fst<-snpgdsFst(ammiad.gds,as.factor(pops$Transect_order),"W&H02"
 matrixFst<-Transect_orders.fst$Beta
 
 
-## BASH code to calculate pi with vcftools
+#----------------BASH and R code to calculate pi with vcftools------------#
 
+#in bash
 cat vcf/ammiad_only_filtered_hets_845.vcf | grep CHROM | awk '{for (i=10;i<=NF;i++){print $i}}' > vcf/samples.txt
 NLINES=$( cat vcf/samples.txt | wc -l )
 for i in `seq 1 $( expr $NLINES - 1 )`;do
@@ -216,4 +217,16 @@ pi=$( cat res.sites.pi | grep -v CHROM awk 'BEGIN{tot=0}{tot=tot+$3}END{print to
 echo $i $j $pi >> results.txt
 done
 done
-vcftools vcf/ammiad_only_filtered_hets_845.vcf
+
+#in R                      
+xsamples<-unname(unlist(read.table("vcf/samples.txt")))
+mat<-matrix(rep(0,845*845),nrow=845)
+for ( i in 1:844){
+print(i)
+xpi<-read.table(paste0("results.pi/results.",i,".txt"))
+mat[xpi$V2,i]<-xpi$V3
+rownames(mat)<-xsamples
+colnames(mat)<-xsamples
+}
+write.table(mat,file="fstmat.tsv",quote=FALSE,sep='\t')
+
