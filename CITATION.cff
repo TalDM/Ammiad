@@ -1,8 +1,0 @@
-cff-version: 1.1.0
-message: "If you use this repo, please cite it as below."
-authors:
-  - family-names: Dahan-Meir, Ellis, Mafessoni
-    given-names: Tal, Thomas James, Fabrizio
-title: ellisztamas/Ammiad-1: Population dynamics of wild emmer wheat at the Kibbutz Ammiad
-version: v1.0.0
-date-released: 2023-07-05
