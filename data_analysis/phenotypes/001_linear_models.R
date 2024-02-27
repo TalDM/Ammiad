@@ -42,7 +42,7 @@ names(model_fits) <- c(gaussian_vars, poisson_vars, ordinal_vars, "coleptile_col
 
 # Fit models for normally-distributed variables.
 for(var in gaussian_vars){
-  cat("Fitting the BRMS model for ", var, "... ", sep="")
+  message("Fitting the BRMS model for ", var, "... ", sep="")
   t0 <- Sys.time()
   # Regression formula
   frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | dgg)"))
@@ -58,12 +58,12 @@ for(var in gaussian_vars){
     file= model_path
   )
   t1 <- Sys.time()
-  cat("Completed in", round(as.numeric(t1-t0)/60, 3), "minutes.\n\n")
+  message("Completed in", round(as.numeric(t1-t0)/60, 3), "minutes.\n\n")
 }
 
 # Fit models for poisson variables
 for(var in poisson_vars){
-  cat("Fitting the BRMS model for ", var, "... ", sep="")
+  message("Fitting the BRMS model for ", var, "... ", sep="")
   t0 <- Sys.time()
   # Regression formula
   frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | dgg)"))
@@ -79,13 +79,13 @@ for(var in poisson_vars){
     control = list(adapt_delta = 0.97, max_treedepth = 12), seed=8
   )
   t1 <- Sys.time()
-  cat("Completed in", round(as.numeric(t1-t0)/60, 3), "minutes.\n\n")
+  message("Completed in", round(as.numeric(t1-t0)/60, 3), "minutes.\n\n")
 }
 
 
 # Fit the models for ordinal variables
 for(var in ordinal_vars){
-  cat("Fitting the BRMS model for ", var, "... ", sep="")
+  message("Fitting the BRMS model for ", var, "... ", sep="")
   t0 <- Sys.time()
   # Regression formula
   frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | dgg)"))
@@ -101,7 +101,7 @@ for(var in ordinal_vars){
     file= model_path
   )
   t1 <- Sys.time()
-  cat("Completed in", round(as.numeric(t1-t0)/60, 3), "minutes.\n\n")
+  message("Completed in", round(as.numeric(t1-t0)/60, 3), "minutes.\n\n")
 }
 
 # Fit the model for the single binary phenotype, coleptile color
@@ -112,7 +112,7 @@ frmula <- formula(paste(var, "~ 1 + (1 | block) + (1 | dgg)"))
 # Path to save the model output
 model_path <- paste0("data_analysis/phenotypes/brms_fits/", var, "_fit.rds")
 # Fit the model
-cat("Fitting the BRMS model for coleptile colour.")
+message("Fitting the BRMS model for coleptile colour.")
 model_fits[[var]] <- brm(
   formula = frmula,
   data = pheno,
@@ -122,4 +122,4 @@ model_fits[[var]] <- brm(
   file= model_path
 )
 t1 <- Sys.time()
-cat("Completed in", round(as.numeric(t1-t0)/60, 3), "minutes.\n\n")
+message("Completed in", round(as.numeric(t1-t0)/60, 3), "minutes.\n\n")

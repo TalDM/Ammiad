@@ -6,7 +6,7 @@ source('data_processing/ammiad_spatial_clustering.R')
 source('data_processing/ammiad_temporal_stability.R')
 
 # Import simulation data
-sim_habitat_by_year <- readRDS("simulations/structured/output/sim_habitat_by_year.rds")
+sim_habitat_by_year <- readRDS("simulations/output/sim_habitat_by_year.rds")
 
 d <- obs_geno %>%
   split(.$Year)
@@ -31,8 +31,8 @@ observed_fst <- do.call('rbind', observed_fst)
 
 
 # New facet label names for dispersal distances
-disp.labs <- paste(c(0.5, 0.75, 1, 2),"m",sep="")
-names(disp.labs) <- c(0.5, 0.75, 1, 2)
+disp.labs <- paste(c(0.25, 0.5, 0.75, 1, 2),"m",sep="")
+names(disp.labs) <- c(0.25, 0.5, 0.75, 1, 2)
 # New facet label names for outcrossing
 out.labs <- paste(c(0.005, 0.02, 0.04, 0.08)*100, "%", sep="")
 names(out.labs) <- c(0.005, 0.02, 0.04, 0.08)
@@ -55,7 +55,8 @@ sim_habitat_by_year %>%
     color ="Density"
   ) +
   lims(
-    x= c(1980, 2020)
+    x= c(1980, 2020),
+    y = c(0,0.25)
   )+
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1)
@@ -66,7 +67,6 @@ sim_habitat_by_year %>%
   )
 
 ggsave(
-  filename = "simulations/structured/structured_simulations.pdf",
+  filename = "simulations/simulations.pdf",
   device = "pdf", width = 16.9, units = 'cm'
   )
-

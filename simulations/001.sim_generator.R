@@ -8,21 +8,18 @@
 set.seed(102)
 
 # Directory to save scripts to.
-out_dir <- "simulations/structured/simmiad_scripts"
+out_dir <- "simulations/simmiad_scripts"
 dir.create(out_dir, showWarnings = FALSE)
 # Directory to tell the scripts to save the output to.
-sim_dir <- "simulations/structured/output/"
-dir.create(sim_dir, showWarnings = F)
+sim_dir <- "simulations/output/"
+dir.create(sim_dir, showWarnings = FALSE)
 # Directory to save SLURM messages to.
-slurm_dir <- "simulations/structured/slurm"
-dir.create(out_dir, showWarnings = FALSE)
-
-# Import field data
-# source("data_processing/import_field_occupancy_data.R") 
+slurm_dir <- "simulations/slurm"
+dir.create(slurm_dir, showWarnings = FALSE)
 
 # Initialise parameters
 years <- 1984
-dispersal <- c(0.5, 0.75, 1, 2)
+dispersal <- c(0.25, 0.5, 1, 2)
 outcrossing_rate <- c(0.5, 2, 4, 8) / 100
 n_generations <- 40
 density <- c(1, 2, 3, 5)
@@ -30,7 +27,7 @@ dormancy <- c(0, 0.1, 0.3, 0.5)
 n_sample_points <- 30 
 sample_spacing <- 5
 nsims <- 100
-range_limit= 1.5
+range_limit= 2
 years_to_sample <- '1:n_generations'
 
 for(d in dispersal){

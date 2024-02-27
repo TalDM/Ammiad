@@ -5,7 +5,9 @@
 library("tidyverse")
 
 # Where the simulation results are
-simdir <- Sys.glob("simulations/structured/output/*/")
+simdir <- Sys.glob("simulations/output/*/")
+# Ignore results for mean dispersal = 10cm because they yield nonsense
+simdir <- grep("d010", simdir, invert = TRUE, value=TRUE)
 
 items_to_ignore <- grep("d[0-9]+_o[0-9]+", simdir, invert = TRUE, value = TRUE)
 if( length(items_to_ignore) >0 ){
@@ -15,20 +17,6 @@ if( length(items_to_ignore) >0 ){
 }
 # Exclude entries that don't match a pattern
 simdir <- grep("d[0-9]+_o[0-9]+", simdir, value = TRUE)
-
-# cld <- Sys.glob("simulations/structured/output/*/clustering_by_habitat.csv")
-# cld <- substr(cld, 1,54)
-# 
-# simdir[  !simdir %in% cld ]
-# 
-# dir("simulations/structured/simmiad_scripts/")[ which(  !simdir %in% cld ) ]
-
-# all_sims <- substr(Sys.glob("simulations/structured/simmiad_scripts/*R"), 40, 62)
-# cld <- Sys.glob("simulations/structured/output/*")
-# cld <- substr(cld, 31,100)
-# 
-# all_sims[ which( !all_sims %in% cld )]
-
 
 # Function to import results and parameter values, and return a table with a row
 # for each generation giving input parameters, plus the probability of identical
@@ -74,26 +62,26 @@ sim_habitat_by_year <- lapply(simdir, summarise_by_year, file_name = "clustering
   do.call(what = 'rbind')
 
 cat("Saving to disk.\n")
-saveRDS(sim_di_by_year,      "simulations/structured/output/sim_di_by_year.rds")
-saveRDS(sim_habitat_by_year, "simulations/structured/output/sim_habitat_by_year.rds")
+saveRDS(sim_di_by_year,      "simulations/output/sim_di_by_year.rds")
+saveRDS(sim_habitat_by_year, "simulations/output/sim_habitat_by_year.rds")
 
 
 
 
-if( file.exists('simulations/structured/output/sim_di_by_year.rds') ){
+if( file.exists('simulations/output/sim_di_by_year.rds') ){
   cat(
     "File sim_di_by_year.rds created and has size",
-    file.size('simulations/structured/output/sim_di_by_year.rds'),
+    file.size('simulations/output/sim_di_by_year.rds'),
     "\n"
     )
 } else {
   cat("File sim_di_by_year.rds not found.\n")
 }
 
-if( file.exists('simulations/structured/output/sim_habitat_by_year.rds') ){
+if( file.exists('simulations/output/sim_habitat_by_year.rds') ){
   cat(
     "File sim_habitat_by_year.rds created and has size",
-    file.size('simulations/structured/output/sim_habitat_by_year.rds'),
+    file.size('simulations/output/sim_habitat_by_year.rds'),
     '\n'
     )
 } else {

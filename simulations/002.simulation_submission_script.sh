@@ -5,11 +5,11 @@
 
 # SLURM
 #SBATCH --job-name=structured_sims
-#SBATCH --output=simulations/structured/slurm/structured_sims%J.out
-#SBATCH --error=simulations/structured/slurm/structured_sims%J.err
+#SBATCH --output=simulations/slurm/%x-%a.out
+#SBATCH --error=simulations/slurm/%x-%a.err
 #SBATCH --mem-per-cpu=10GB
 #SBATCH --qos=long
-#SBATCH --time=4-00:00:00
+#SBATCH --time=5-00:00:00
 #SBATCH --ntasks=1
 #SBATCH --array=0-255
 
@@ -18,7 +18,8 @@ ml build-env/f2022
 ml r/4.1.2-foss-2021b
 
 # Generate R scripts for each parameter combination.
-Rscript simulations/structured/001.sim_generator.R
+# If not run already
+# Rscript simulations/001.sim_generator.R
 # Submit each simulation.
-FILES=(simulations/structured/simmiad_scripts/*.R)
+FILES=(simulations/simmiad_scripts/*.R)
 srun Rscript ${FILES[$SLURM_ARRAY_TASK_ID]}
