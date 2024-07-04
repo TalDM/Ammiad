@@ -17,15 +17,13 @@ str2date <- function(dates) {
 }
 
 # Data file with eleven vegetative phenotypes
-pheno <- read_csv("data/dataset_S2.csv", show_col_types = FALSE)
+pheno <- read_csv("data/raw_data/vegetative_means.csv", show_col_types = FALSE)
 
 #' DGG calling was updated during the experiment with a lower threshold for
 #' identity. Based on the new calls, three pairs of old DGGs were called as a
 #' single DGG, meaning they are overrepresented. Remove one set of replicates
 #' and remove the underscores.
 pheno <- pheno %>%
-  dplyr::select(-old_dgg) %>%
-  rename(dgg = new_dgg) %>% 
   filter( !grepl("_2", .$dgg), dgg != "zavitan") %>%
   mutate(
     dgg = str_replace(dgg, "_[1,2]$", "")
@@ -40,7 +38,7 @@ pheno <- pheno %>%
     germination_date = str2date(germination_date),
     anthesis_date = str2date(anthesis_date),
     # Binarise coleptile colour
-    coleptile_color = ifelse(coleptile_color == "P", 1, 0),
+    coleptile_colour = ifelse(coleptile_colour == "P", 1, 0),
     block = as.character(block),
     # improve normality by removing rightward skew
     main_flag_leaf_width = log(main_flag_leaf_width)
@@ -62,6 +60,7 @@ seeds   <- read_csv(
 pheno <- pheno %>% 
   left_join(seeds, by =c("block", "dgg"))
 
-pheno$dgg %>%  unique
+pheno %>% 
+  write_csv("data/dataset_S2.csv")
 
 rm(seeds)
