@@ -1,9 +1,17 @@
 Scripts to analyse the phenotype data from the common-garden nethouse experiment
 and predict phenotypes in the field.
 
-* `001_linear_models.R`       : Script to fit linear models to each phenotype with BRMS
+* `001_linear_models.R`       : Script to fit linear models to each phenotype
+    with BRMS
 * `002_submit_linear_models.sh` : Submit the linear models as a SLURM job
 * `003_heritability.R`          : Estimate and plot broad-sense heritability
-* `004_predict_phenotypes.R`    : Predict phenotypes for 801 samples at Ammiad and calculate variance explained by habitat and year
+* `004_predict_phenotypes.R`    : Predict phenotypes for 801 samples at Ammiad
+    and calculate variance explained by habitat and year
 * `005_submit_predictions.sh`   : Submit the predictions as a SLURM job
 * `006_plot_predictions.R`      : Plot variance explained by habitat.
+* `007_linear_discriminant_analysis.R` : Linear discriminant analysis on mean
+    phenotypes in each habitat. This is based on a file of mean phenotypes (on
+    the scale of the corresponding link function) created in 
+    `004_predict_phenotypes.R`.
+* `008_plot_phenotypes.R`       : Create a single plot from the plot objects in
+    scripts 6 and 7.

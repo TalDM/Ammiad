@@ -1,4 +1,4 @@
-,Sample,Year,Position,DGG,Group_size,Coverage,Alternative,Longitude,Latitude,Height,Habitat,Habitat_order,Transect_order,dist,color,plants_in_1M_circle_around_peg,plants_until_next_point_over_2_meters_width
+,Sample,Year,Position,DGG,Group_size,Coverage,Alternative,Longitude,Latitude,Height,Habitat,Habitat_order,Transect_order,dist,colour,spikes_in_1M_circle_around_peg,spikes_until_next_point_over_2_meters_width
 1,1984A10,1984,A10,G1,30,5149,27.21324095,35.53275302,32.91814104,268.042328,Upper_N_facing_slope,3,3,9.743091887,#7fff00,,
 2,1984A11,1984,A11,G1,30,5179,26.90531178,35.53273399,32.91816199,268.065002,Upper_N_facing_slope,4,4,12.52272407,#7fff00,,
 3,1984A12,1984,A12,G2,4,5060,29.59969207,35.53271396,32.91821899,266.433624,Upper_N_facing_slope,5,5,19.12449405,#da70d6,,
